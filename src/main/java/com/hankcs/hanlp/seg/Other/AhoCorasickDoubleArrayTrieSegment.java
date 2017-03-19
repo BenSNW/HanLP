@@ -46,19 +46,14 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
         final int[] wordNet = new int[sentence.length];
         Arrays.fill(wordNet, 1);
         final Nature[] natureArray = config.speechTagging ? new Nature[sentence.length] : null;
-        trie.parseText(sentence, new AhoCorasickDoubleArrayTrie.IHit<CoreDictionary.Attribute>()
-        {
-            @Override
-            public void hit(int begin, int end, CoreDictionary.Attribute value)
+        trie.parseText(sentence, (begin, end, value) -> {
+            int length = end - begin;
+            if (length > wordNet[begin])
             {
-                int length = end - begin;
-                if (length > wordNet[begin])
+                wordNet[begin] = length;
+                if (config.speechTagging)
                 {
-                    wordNet[begin] = length;
-                    if (config.speechTagging)
-                    {
-                        natureArray[begin] = value.nature[0];
-                    }
+                    natureArray[begin] = value.nature[0];
                 }
             }
         });

@@ -564,7 +564,17 @@ public class HanLP
      */
     public static CoNLLSentence parseDependency(String sentence)
     {
-        return NeuralNetworkDependencyParser.compute(sentence);
+        return parseDependency(sentence, false);
+    }
+
+    /**
+     * 依存文法分析
+     * @param sentence 待分析的句子
+     * @return CoNLL格式的依存关系树
+     */
+    public static CoNLLSentence parseDependency(String sentence, boolean translateLabel)
+    {
+        return NeuralNetworkDependencyParser.compute(sentence, translateLabel);
     }
 
     /**

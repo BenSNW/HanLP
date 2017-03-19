@@ -48,7 +48,7 @@ public abstract class Segment
     /**
      * 构造一个分词器
      */
-    public Segment()
+    protected Segment()
     {
         config = new Config();
     }

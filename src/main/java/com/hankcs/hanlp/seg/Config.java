@@ -39,15 +39,15 @@ public class Config
     /**
      * 是否识别机构
      */
-    public boolean organizationRecognize = false;
+    public boolean organizationRecognize = true;
     /**
      * 是否加载用户词典
      */
-    public boolean useCustomDictionary = true;
+    public boolean useCustomDictionary = false;
     /**
      * 词性标注
      */
-    public boolean speechTagging = false;
+    public boolean speechTagging = true;
     /**
      * 命名实体识别是否至少有一项被激活
      */
@@ -59,7 +59,7 @@ public class Config
     /**
      * 是否识别数字和量词
      */
-    public boolean numberQuantifierRecognize = false;
+    public boolean numberQuantifierRecognize = true;
     /**
      * 并行分词的线程数
      */

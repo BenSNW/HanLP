@@ -54,19 +54,14 @@ public class DoubleArrayTrieSegment extends DictionaryBasedSegment
         }
         if (config.useCustomDictionary)
         {
-            CustomDictionary.parseText(charArray, new AhoCorasickDoubleArrayTrie.IHit<CoreDictionary.Attribute>()
-            {
-                @Override
-                public void hit(int begin, int end, CoreDictionary.Attribute value)
+            CustomDictionary.parseText(charArray, (begin, end, value) -> {
+                int length = end - begin;
+                if (length > wordNet[begin])
                 {
-                    int length = end - begin;
-                    if (length > wordNet[begin])
+                    wordNet[begin] = length;
+                    if (config.speechTagging)
                     {
-                        wordNet[begin] = length;
-                        if (config.speechTagging)
-                        {
-                            natureArray[begin] = value.nature[0];
-                        }
+                        natureArray[begin] = value.nature[0];
                     }
                 }
             });

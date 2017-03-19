@@ -25,11 +25,11 @@ public class CoNLLWord
      */
     public String LEMMA;
     /**
-     * 当前词语的词性（粗粒度）
+     * 当前词语的词性（词性-细粒度）
      */
     public String CPOSTAG;
     /**
-     * 当前词语的词性（细粒度）
+     * 当前词语的词性（词性-粗粒度）
      */
     public String POSTAG;
     /**
@@ -106,13 +106,19 @@ public class CoNLLWord
         this(lineArray[index]);
     }
 
+//    @Override
+//    public String toString()
+//    {
+//        final StringBuilder sb = new StringBuilder();
+//        sb.append(ID).append('\t').append(LEMMA).append('\t').append(LEMMA).append('\t').append(CPOSTAG).append('\t')
+//                .append(POSTAG).append('\t').append('_').append('\t').append(HEAD.ID).append('\t').append(DEPREL).append('\t')
+//                .append('_').append('\t').append('_');
+//        return sb.toString();
+//    }
+
+
     @Override
-    public String toString()
-    {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(ID).append('\t').append(LEMMA).append('\t').append(LEMMA).append('\t').append(CPOSTAG).append('\t')
-                .append(POSTAG).append('\t').append('_').append('\t').append(HEAD.ID).append('\t').append(DEPREL).append('\t')
-                .append('_').append('\t').append('_');
-        return sb.toString();
+    public String toString() {
+        return "CoNLLWord{" + "ID=" + ID + ", LEMMA='" + LEMMA + '\'' + ", CPOSTAG='" + CPOSTAG + '\'' + ", POSTAG='" + POSTAG + '\'' + ", HEAD=" + HEAD.ID + ", DEPREL='" + DEPREL + '\'' + ", NAME='" + NAME + '\'' + '}';
     }
 }

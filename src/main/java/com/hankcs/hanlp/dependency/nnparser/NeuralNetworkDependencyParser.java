@@ -91,6 +91,17 @@ public class NeuralNetworkDependencyParser extends AbstractDependencyParser
      */
     public static CoNLLSentence compute(String sentence)
     {
-        return new NeuralNetworkDependencyParser().parse(sentence);
+        return new NeuralNetworkDependencyParser().enableDeprelTranslator(false).parse(sentence);
+    }
+
+    /**
+     * 分析句子的依存句法
+     *
+     * @param sentence 句子
+     * @return CoNLL格式的依存句法树
+     */
+    public static CoNLLSentence compute(String sentence, boolean translatorLabel)
+    {
+        return new NeuralNetworkDependencyParser().enableDeprelTranslator(translatorLabel).parse(sentence);
     }
 }
