@@ -1,4 +1,4 @@
-# Eclipse project folder
+﻿# Eclipse project folder
 .settings/
 
 *.class
@@ -20,16 +20,19 @@ hs_err_pid*
 /.classpath
 /*.eml
 /.project
+
 # 以下是词典和模型的二进制文件，请不要提交到版本库
 *.dat
 *.bin
 *.yes
+
 # 我做实验用的目录
-/data/test
-# 大模型
-data/model
+/data
+
+
 # 系统文件
 **/.DS_Store
 .java-version
 # 配置文件等（资源文件统一放到data）
+
 src/main/resources/
