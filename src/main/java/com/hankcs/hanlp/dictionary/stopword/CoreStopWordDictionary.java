@@ -15,14 +15,14 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.Predefine;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.Predefine;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.util.List;
 import java.util.ListIterator;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 
 /**
@@ -70,7 +70,7 @@ public class CoreStopWordDictionary
         public boolean shouldInclude(Term term)
         {
             // 除掉停用词
-            String nature = term.nature != null ? term.nature.toString() : "空";
+            String nature = term.tag != null ? term.tag.toString() : "空";
             char firstChar = nature.charAt(0);
             switch (firstChar)
             {

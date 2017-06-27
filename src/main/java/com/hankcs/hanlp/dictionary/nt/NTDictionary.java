@@ -16,14 +16,14 @@ import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.corpus.tag.NT;
 import com.hankcs.hanlp.dictionary.common.CommonDictionary;
-import com.hankcs.hanlp.utility.ByteUtil;
+import com.hankcs.hanlp.util.ByteUtil;
 
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 一个好用的地名词典

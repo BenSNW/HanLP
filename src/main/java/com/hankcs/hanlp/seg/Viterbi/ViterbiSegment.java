@@ -17,7 +17,7 @@ import com.hankcs.hanlp.recognition.nr.PersonRecognition;
 import com.hankcs.hanlp.recognition.nr.TranslatedPersonRecognition;
 import com.hankcs.hanlp.recognition.ns.PlaceRecognition;
 import com.hankcs.hanlp.recognition.nt.OrganizationRecognition;
-import com.hankcs.hanlp.seg.WordBasedGenerativeModelSegment;
+import com.hankcs.hanlp.seg.ShortestPathSegment;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author hankcs
  */
-public class ViterbiSegment extends WordBasedGenerativeModelSegment
+public class ViterbiSegment extends ShortestPathSegment
 {
     @Override
     protected List<Term> segSentence(char[] sentence)
@@ -115,7 +115,7 @@ public class ViterbiSegment extends WordBasedGenerativeModelSegment
         }
 
         // 是否标注词性
-        if (config.speechTagging)
+        if (config.posTagging)
         {
             speechTagging(vertexList);
         }

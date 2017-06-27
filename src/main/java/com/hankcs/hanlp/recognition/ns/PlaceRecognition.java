@@ -15,7 +15,7 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.algoritm.Viterbi;
 import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
 import com.hankcs.hanlp.corpus.tag.NS;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.ns.PlaceDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
@@ -79,7 +79,7 @@ public class PlaceRecognition
         {
             Vertex vertex = listIterator.next();
             // 构成更长的
-//            if (Nature.ns == vertex.getNature() && vertex.getAttribute().totalFrequency <= 1000)
+//            if (PosTag.ns == vertex.getNature() && vertex.getTagInfo().totalFrequency <= 1000)
 //            {
 //                String value = vertex.realWord;
 //                int longestSuffixLength = PlaceSuffixDictionary.dictionary.getLongestSuffixLength(value);
@@ -98,7 +98,7 @@ public class PlaceRecognition
 //                    continue;
 //                }
 //            }
-            if (Nature.ns == vertex.getNature() && vertex.getAttribute().totalFrequency <= 1000)
+            if (PosTag.ns == vertex.getNature() && vertex.getTagInfo().totalFrequency <= 1000)
             {
                 if (vertex.realWord.length() < 3)               // 二字地名，认为其可以再接一个后缀或前缀
                     tagList.add(new EnumItem<NS>(NS.H, NS.G));

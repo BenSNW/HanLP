@@ -15,11 +15,10 @@ package com.hankcs.hanlp.corpus.dictionary;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.AbstractMap;
 import java.util.Map;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 满足 key=value 格式的词典，其中“=”可以自定义
  * @author hankcs

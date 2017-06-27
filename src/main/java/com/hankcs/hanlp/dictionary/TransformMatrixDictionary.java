@@ -14,11 +14,10 @@ package com.hankcs.hanlp.dictionary;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 转移矩阵词典

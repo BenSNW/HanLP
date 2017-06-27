@@ -15,7 +15,7 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.algoritm.Viterbi;
 import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
 import com.hankcs.hanlp.corpus.tag.NT;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.nt.OrganizationDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
@@ -23,7 +23,6 @@ import com.hankcs.hanlp.seg.common.WordNet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * 地址识别
@@ -78,12 +77,12 @@ public class OrganizationRecognition
         for (Vertex vertex : vertexList)
         {
             // 构成更长的
-            Nature nature = vertex.guessNature();
+            PosTag nature = vertex.guessNature();
             switch (nature)
             {
                 case nrf:
                 {
-                    if (vertex.getAttribute().totalFrequency <= 1000)
+                    if (vertex.getTagInfo().totalFrequency <= 1000)
                     {
                         tagList.add(new EnumItem<NT>(NT.F, 1000));
                     }

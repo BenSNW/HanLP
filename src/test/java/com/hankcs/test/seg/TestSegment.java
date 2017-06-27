@@ -220,7 +220,7 @@ public class TestSegment extends TestCase
         System.out.println(termList);
         for (Term term : termList)
         {
-            if (term.nature == null)
+            if (term.tag == null)
             {
                 System.out.println("识别到新词：" + term.word);
             }
@@ -259,7 +259,7 @@ public class TestSegment extends TestCase
             Term term1 = iterator1.next();
             Term term2 = iterator2.next();
             assertEquals(term1.word, term2.word);
-            assertEquals(term1.nature, term2.nature);
+            assertEquals(term1.tag, term2.tag);
             assertEquals(term1.offset, term2.offset);
         }
     }
@@ -302,11 +302,11 @@ public class TestSegment extends TestCase
 
     public void testIssue22() throws Exception
     {
-        CoreDictionary.Attribute attribute = CoreDictionary.get("年");
+        CoreDictionary.PosTagInfo attribute = CoreDictionary.get("年");
         System.out.println(attribute);
         List<Term> termList = StandardTokenizer.segment("三年");
         System.out.println(termList);
-        assertEquals(attribute.nature[0], termList.get(1).nature);
+        assertEquals(attribute.pos[0], termList.get(1).tag);
         System.out.println(StandardTokenizer.segment("三元"));
         StandardTokenizer.SEGMENT.enableNumberQuantifierRecognize(true);
         System.out.println(StandardTokenizer.segment("三年"));

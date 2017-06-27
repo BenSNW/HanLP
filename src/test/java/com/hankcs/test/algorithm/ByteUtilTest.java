@@ -1,7 +1,7 @@
 package com.hankcs.test.algorithm;
 
 import com.hankcs.hanlp.corpus.io.ByteArray;
-import com.hankcs.hanlp.utility.ByteUtil;
+import com.hankcs.hanlp.util.ByteUtil;
 import junit.framework.TestCase;
 
 import java.io.DataOutputStream;

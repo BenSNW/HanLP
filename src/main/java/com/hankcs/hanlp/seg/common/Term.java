@@ -12,8 +12,8 @@
 package com.hankcs.hanlp.seg.common;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.tag.Nature;
-import com.hankcs.hanlp.utility.LexiconUtility;
+import com.hankcs.hanlp.corpus.tag.PosTag;
+import com.hankcs.hanlp.util.LexiconUtility;
 
 /**
  * 一个单词，用户可以直接访问此单词的全部属性
@@ -29,7 +29,7 @@ public class Term
     /**
      * 词性
      */
-    public Nature nature;
+    public PosTag tag;
 
     /**
      * 在文本中的起始位置（需开启分词器的offset选项）
@@ -41,18 +41,32 @@ public class Term
      * @param word 词语
      * @param nature 词性
      */
-    public Term(String word, Nature nature)
+    public Term(String word, PosTag nature)
     {
         this.word = word;
-        this.nature = nature;
+        this.tag = nature;
+    }
+
+    public Term(String word, int offset)
+    {
+        this.word = word;
+        this.offset = offset;
     }
 
     @Override
     public String toString()
     {
         if (HanLP.Config.ShowTermNature)
-            return word + "/" + nature;
+            return word + "/" + tag;
         return word;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != Term.class)
+            return false;
+        Term term = (Term) obj;
+        return tag == term.tag && word.equals(term.word);
     }
 
     /**

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static com.hankcs.hanlp.HanLP.Config.IOAdapter;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs

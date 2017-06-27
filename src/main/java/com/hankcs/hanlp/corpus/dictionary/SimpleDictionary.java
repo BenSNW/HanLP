@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static com.hankcs.hanlp.HanLP.Config.IOAdapter;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 可以调整大小的词典

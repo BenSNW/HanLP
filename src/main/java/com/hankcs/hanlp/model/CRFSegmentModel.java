@@ -86,16 +86,18 @@ public final class CRFSegmentModel extends CRFModel
             return;
         }
         double[][] net = new double[size][4];
-        for (int i = 0; i < size; ++i)
+        for (int i = 0; i < size; i++)
         {
             LinkedList<double[]> scoreList = computeScoreList(table, i);
-            for (int tag = 0; tag < 4; ++tag)
+            for (int tag = 0; tag < 4; tag++)
             {
                 net[i][tag] = computeScore(scoreList, tag);
             }
         }
         net[0][idM] = -1000.0;  // 第一个字不可能是M或E
         net[0][idE] = -1000.0;
+
+        // Viterbi decoding
         int[][] from = new int[size][4];
         for (int i = 1; i < size; ++i)
         {
@@ -114,6 +116,7 @@ public final class CRFSegmentModel extends CRFModel
                 net[i][now] = maxScore;
             }
         }
+
         // 反向回溯最佳路径
         int maxTag = net[size - 1][idS] > net[size - 1][idE] ? idS : idE;
         table.setLast(size - 1, id2tag[maxTag]);

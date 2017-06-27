@@ -15,7 +15,7 @@ package com.hankcs.hanlp.corpus.io;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+
 /**
  * 遍历目录工具类
  * @author hankcs

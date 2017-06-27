@@ -16,14 +16,13 @@ import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
 import com.hankcs.hanlp.corpus.dependency.model.WordNatureWeightModelMaker;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.TreeMap;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 2-gram依存模型，根据两个词的词和词性猜测它们最可能的依存关系

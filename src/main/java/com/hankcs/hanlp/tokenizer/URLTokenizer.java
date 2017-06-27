@@ -12,7 +12,7 @@
 package com.hankcs.hanlp.tokenizer;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
@@ -48,7 +48,7 @@ public class URLTokenizer
         {
             end = matcher.start();
             termList.addAll(SEGMENT.seg(text.substring(begin, end)));
-            termList.add(new Term(matcher.group(), Nature.xu));
+            termList.add(new Term(matcher.group(), PosTag.xu));
             begin = matcher.end();
         }
         if (begin < text.length()) termList.addAll(SEGMENT.seg(text.substring(begin)));

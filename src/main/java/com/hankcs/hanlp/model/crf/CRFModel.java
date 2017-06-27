@@ -16,15 +16,14 @@ import com.hankcs.hanlp.collection.trie.ITrie;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.ICacheAble;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.Predefine;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.Predefine;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.BIN_EXT;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.BIN_EXT;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs
@@ -54,7 +53,7 @@ public class CRFModel implements ICacheAble
 
     public CRFModel()
     {
-        featureFunctionTrie = new DoubleArrayTrie<FeatureFunction>();
+        featureFunctionTrie = new DoubleArrayTrie<>();
     }
 
     /**
@@ -79,9 +78,9 @@ public class CRFModel implements ICacheAble
      */
     public static CRFModel loadTxt(String path, CRFModel instance)
     {
-        CRFModel CRFModel = instance;
+        CRFModel crfModel = instance;
         // 先尝试从bin加载
-        if (CRFModel.load(ByteArray.createByteArray(path + Predefine.BIN_EXT))) return CRFModel;
+        if (crfModel.load(ByteArray.createByteArray(path + Predefine.BIN_EXT))) return crfModel;
         IOUtil.LineIterator lineIterator = new IOUtil.LineIterator(path);
         if (!lineIterator.hasNext()) return null;
         logger.info(lineIterator.next());   // verson
@@ -91,38 +90,43 @@ public class CRFModel implements ICacheAble
         lineIterator.next();    // blank
         String line;
         int id = 0;
-        CRFModel.tag2id = new HashMap<String, Integer>();
+        crfModel.tag2id = new HashMap<>();
         while ((line = lineIterator.next()).length() != 0)
         {
-            CRFModel.tag2id.put(line, id);
+            crfModel.tag2id.put(line, id);
             ++id;
         }
-        CRFModel.id2tag = new String[CRFModel.tag2id.size()];
-        final int size = CRFModel.id2tag.length;
-        for (Map.Entry<String, Integer> entry : CRFModel.tag2id.entrySet())
+        crfModel.id2tag = new String[crfModel.tag2id.size()];
+        final int size = crfModel.id2tag.length;
+        for (Map.Entry<String, Integer> entry : crfModel.tag2id.entrySet())
         {
-            CRFModel.id2tag[entry.getValue()] = entry.getKey();
+            crfModel.id2tag[entry.getValue()] = entry.getKey();
         }
-        TreeMap<String, FeatureFunction> featureFunctionMap = new TreeMap<String, FeatureFunction>();  // 构建trie树的时候用
-        List<FeatureFunction> featureFunctionList = new LinkedList<FeatureFunction>(); // 读取权值的时候用
-        CRFModel.featureTemplateList = new LinkedList<FeatureTemplate>();
+
+        // 读取feature template
+        crfModel.featureTemplateList = new LinkedList<>();
         while ((line = lineIterator.next()).length() != 0)
         {
             if (!"B".equals(line))
             {
                 FeatureTemplate featureTemplate = FeatureTemplate.create(line);
-                CRFModel.featureTemplateList.add(featureTemplate);
+                crfModel.featureTemplateList.add(featureTemplate);
             }
             else
             {
-                CRFModel.matrix = new double[size][size];
+                crfModel.matrix = new double[size][size];
             }
         }
 
-        if (CRFModel.matrix != null)
+        // 读取tag转移矩阵
+        if (crfModel.matrix != null)
         {
             lineIterator.next();    // 0 B
         }
+
+        // 读取features
+        TreeMap<String, FeatureFunction> featureFunctionMap = new TreeMap<>();  // 构建trie树的时候用
+        List<FeatureFunction> featureFunctionList = new LinkedList<>(); // 读取权值的时候用
 
         while ((line = lineIterator.next()).length() != 0)
         {
@@ -132,23 +136,25 @@ public class CRFModel implements ICacheAble
             featureFunctionMap.put(args[1], featureFunction);
             featureFunctionList.add(featureFunction);
         }
+        logger.info("CRFSegmentModel加载完成，特征数为" + featureFunctionList.size());
 
-        if (CRFModel.matrix != null)
+        if (crfModel.matrix != null)
         {
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    CRFModel.matrix[i][j] = Double.parseDouble(lineIterator.next());
+                    crfModel.matrix[i][j] = Double.parseDouble(lineIterator.next());
                 }
             }
         }
 
+        // 读取每个feature对应tag的权值并构建feature function trie
         for (FeatureFunction featureFunction : featureFunctionList)
         {
             for (int i = 0; i < size; i++)
             {
-                featureFunction.w[i] = Double.parseDouble(lineIterator.next());
+                featureFunction.weight[i] = Double.parseDouble(lineIterator.next());
             }
         }
         if (lineIterator.hasNext())
@@ -156,22 +162,21 @@ public class CRFModel implements ICacheAble
             logger.warning("文本读取有残留，可能会出问题！" + path);
         }
         lineIterator.close();
-        logger.info("开始构建trie树");
-        CRFModel.featureFunctionTrie.build(featureFunctionMap);
+
+        logger.info("开始构建feature function trie树");
+        crfModel.featureFunctionTrie.build(featureFunctionMap);
+
         // 缓存bin
-        try
-        {
+        try {
             logger.info("开始缓存" + path + Predefine.BIN_EXT);
             DataOutputStream out = new DataOutputStream(IOUtil.newOutputStream(path + Predefine.BIN_EXT));
-            CRFModel.save(out);
+            crfModel.save(out);
             out.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             logger.warning("在缓存" + path + Predefine.BIN_EXT + "时发生错误" + TextUtility.exceptionToString(e));
         }
-        CRFModel.onLoadTxtFinished();
-        return CRFModel;
+        crfModel.onLoadTxtFinished();
+        return crfModel;
     }
 
     /**
@@ -210,6 +215,7 @@ public class CRFModel implements ICacheAble
             return;
         }
 
+        // Viterbi decoding
         int[][] from = new int[size][tagSize];
         for (int i = 1; i < size; ++i)
         {
@@ -258,13 +264,13 @@ public class CRFModel implements ICacheAble
      */
     protected LinkedList<double[]> computeScoreList(Table table, int current)
     {
-        LinkedList<double[]> scoreList = new LinkedList<double[]>();
+        LinkedList<double[]> scoreList = new LinkedList<>();
         for (FeatureTemplate featureTemplate : featureTemplateList)
         {
-            char[] o = featureTemplate.generateParameter(table, current);
-            FeatureFunction featureFunction = featureFunctionTrie.get(o);
+            char[] feature = featureTemplate.generateParameter(table, current);
+            FeatureFunction featureFunction = featureFunctionTrie.get(feature);
             if (featureFunction == null) continue;
-            scoreList.add(featureFunction.w);
+            scoreList.add(featureFunction.weight);
         }
 
         return scoreList;
@@ -279,12 +285,13 @@ public class CRFModel implements ICacheAble
      */
     protected static double computeScore(LinkedList<double[]> scoreList, int tag)
     {
-        double score = 0;
-        for (double[] w : scoreList)
-        {
-            score += w[tag];
-        }
-        return score;
+        return scoreList.stream().mapToDouble(tagScore -> tagScore[tag]).sum();
+//        double score = 0;
+//        for (double[] weight : scoreList)
+//        {
+//            score += weight[tag];
+//        }
+//        return score;
     }
 
     @Override
@@ -332,7 +339,7 @@ public class CRFModel implements ICacheAble
         {
             int size = byteArray.nextInt();
             id2tag = new String[size];
-            tag2id = new HashMap<String, Integer>(size);
+            tag2id = new HashMap<>(size);
             for (int i = 0; i < id2tag.length; i++)
             {
                 id2tag[i] = byteArray.nextUTF();
@@ -346,7 +353,7 @@ public class CRFModel implements ICacheAble
             }
             featureFunctionTrie.load(byteArray, valueArray);
             size = byteArray.nextInt();
-            featureTemplateList = new ArrayList<FeatureTemplate>(size);
+            featureTemplateList = new ArrayList<>(size);
             for (int i = 0; i < size; ++i)
             {
                 FeatureTemplate featureTemplate = new FeatureTemplate();
@@ -381,7 +388,7 @@ public class CRFModel implements ICacheAble
      */
     public static CRFModel loadTxt(String path)
     {
-        return loadTxt(path, new CRFModel(new DoubleArrayTrie<FeatureFunction>()));
+        return loadTxt(path, new CRFModel(new DoubleArrayTrie<>()));
     }
 
     /**
@@ -394,7 +401,7 @@ public class CRFModel implements ICacheAble
     {
         CRFModel model = loadBin(path + BIN_EXT);
         if (model != null) return model;
-        return loadTxt(path, new CRFModel(new DoubleArrayTrie<FeatureFunction>()));
+        return loadTxt(path, new CRFModel(new DoubleArrayTrie<>()));
     }
 
     /**

@@ -18,7 +18,7 @@ import com.hankcs.hanlp.recognition.nr.PersonRecognition;
 import com.hankcs.hanlp.recognition.nr.TranslatedPersonRecognition;
 import com.hankcs.hanlp.recognition.ns.PlaceRecognition;
 import com.hankcs.hanlp.recognition.nt.OrganizationRecognition;
-import com.hankcs.hanlp.seg.WordBasedGenerativeModelSegment;
+import com.hankcs.hanlp.seg.ShortestPathSegment;
 import com.hankcs.hanlp.seg.NShort.Path.*;
 import com.hankcs.hanlp.seg.common.Graph;
 import com.hankcs.hanlp.seg.common.Term;
@@ -32,7 +32,7 @@ import java.util.*;
  *
  * @author hankcs
  */
-public class NShortSegment extends WordBasedGenerativeModelSegment
+public class NShortSegment extends ShortestPathSegment
 {
     List<Vertex> BiOptimumSegment(WordNet wordNetOptimum)
     {
@@ -123,7 +123,7 @@ public class NShortSegment extends WordBasedGenerativeModelSegment
         }
 
         // 是否标注词性
-        if (config.speechTagging)
+        if (config.posTagging)
         {
             speechTagging(vertexList);
         }
@@ -200,7 +200,7 @@ public class NShortSegment extends WordBasedGenerativeModelSegment
      */
     public NShortSegment enablePartOfSpeechTagging(boolean enable)
     {
-        config.speechTagging = enable;
+        config.posTagging = enable;
         return this;
     }
 

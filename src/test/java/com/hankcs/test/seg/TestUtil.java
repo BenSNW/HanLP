@@ -11,7 +11,7 @@
  */
 package com.hankcs.test.seg;
 
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 import junit.framework.TestCase;
 
 /**

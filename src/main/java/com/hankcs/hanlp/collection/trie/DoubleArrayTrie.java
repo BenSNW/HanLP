@@ -16,10 +16,9 @@
 package com.hankcs.hanlp.collection.trie;
 
 import com.hankcs.hanlp.corpus.io.ByteArray;
-import com.hankcs.hanlp.corpus.io.ByteArrayOtherStream;
 import com.hankcs.hanlp.corpus.io.ByteArrayStream;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.ByteUtil;
+import com.hankcs.hanlp.util.ByteUtil;
 
 import java.io.*;
 import java.nio.ByteBuffer;

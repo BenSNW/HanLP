@@ -18,7 +18,7 @@ import com.hankcs.hanlp.dictionary.BaseSearcher;
 import java.io.*;
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 通用的词典，对应固定格式的词典，但是标签可以泛型化

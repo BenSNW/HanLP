@@ -14,24 +14,23 @@ package com.hankcs.hanlp.seg.CRF;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.algoritm.Viterbi;
 import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CoreDictionaryTransformMatrixDictionary;
 import com.hankcs.hanlp.dictionary.other.CharTable;
 import com.hankcs.hanlp.model.CRFSegmentModel;
 import com.hankcs.hanlp.model.crf.CRFModel;
-import com.hankcs.hanlp.model.crf.FeatureFunction;
 import com.hankcs.hanlp.model.crf.Table;
-import com.hankcs.hanlp.seg.CharacterBasedGenerativeModelSegment;
+import com.hankcs.hanlp.seg.TransitionBasedSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.seg.common.Vertex;
-import com.hankcs.hanlp.utility.CharacterHelper;
-import com.hankcs.hanlp.utility.GlobalObjectPool;
+import com.hankcs.hanlp.util.CharacterHelper;
+import com.hankcs.hanlp.util.GlobalObjectPool;
 
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 
 /**
@@ -39,7 +38,7 @@ import static com.hankcs.hanlp.utility.Predefine.logger;
  *
  * @author hankcs
  */
-public class CRFSegment extends CharacterBasedGenerativeModelSegment
+public class CRFSegment extends TransitionBasedSegment
 {
     private CRFModel crfModel;
 
@@ -57,7 +56,7 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
         }
         logger.info("CRF分词模型正在加载 " + modelPath);
         long start = System.currentTimeMillis();
-        crfModel = CRFModel.loadTxt(modelPath, new CRFSegmentModel(new BinTrie<FeatureFunction>()));
+        crfModel = CRFModel.loadTxt(modelPath, new CRFSegmentModel(new BinTrie<>()));
         if (crfModel == null)
         {
             String error = "CRF分词模型加载 " + modelPath + " 失败，耗时 " + (System.currentTimeMillis() - start) + " ms";
@@ -82,7 +81,7 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
         Table table = new Table();
         table.v = atomSegmentToTable(sentenceConverted);
         crfModel.tag(table);
-        List<Term> termList = new LinkedList<Term>();
+        List<Term> termList = new LinkedList<>();
         if (HanLP.Config.DEBUG)
         {
             System.out.println("CRF标注结果");
@@ -90,7 +89,7 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
         }
         int offset = 0;
         OUTER:
-        for (int i = 0; i < table.v.length; offset += table.v[i][1].length(), ++i)
+        for (int i = 0; i < table.v.length; offset += table.v[i][1].length(), i++)
         {
             String[] line = table.v[i];
             switch (line[2].charAt(0))
@@ -109,29 +108,29 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
                     }
                     if (i == table.v.length)
                     {
-                        termList.add(new Term(new String(sentence, begin, offset - begin), null));
+                        termList.add(new Term(new String(sentence, begin, offset - begin), offset));
                         break OUTER;
                     }
                     else
-                        termList.add(new Term(new String(sentence, begin, offset - begin + table.v[i][1].length()), null));
+                        termList.add(new Term(new String(sentence, begin, offset - begin + table.v[i][1].length()), offset));
                 }
                 break;
-                default:
+                default:    // 'S'
                 {
-                    termList.add(new Term(new String(sentence, offset, table.v[i][1].length()), null));
+                    termList.add(new Term(new String(sentence, offset, table.v[i][1].length()), offset));
                 }
                 break;
             }
         }
 
-        if (config.speechTagging)
+        if (config.posTagging)
         {
             List<Vertex> vertexList = toVertexList(termList, true);
             Viterbi.compute(vertexList, CoreDictionaryTransformMatrixDictionary.transformMatrixDictionary);
             int i = 0;
             for (Term term : termList)
             {
-                if (term.nature != null) term.nature = vertexList.get(i + 1).guessNature();
+                if (term.tag != null) term.tag = vertexList.get(i + 1).guessNature();
                 ++i;
             }
         }
@@ -148,18 +147,18 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
 
     private static List<Vertex> toVertexList(List<Term> termList, boolean appendStart)
     {
-        ArrayList<Vertex> vertexList = new ArrayList<Vertex>(termList.size() + 1);
+        ArrayList<Vertex> vertexList = new ArrayList<>(termList.size() + 1);
         if (appendStart) vertexList.add(Vertex.B);
         for (Term term : termList)
         {
-            CoreDictionary.Attribute attribute = CoreDictionary.get(term.word);
-            if (attribute == null)
+            CoreDictionary.PosTagInfo tagInfo = CoreDictionary.get(term.word);
+            if (tagInfo == null)
             {
-                if (term.word.trim().length() == 0) attribute = new CoreDictionary.Attribute(Nature.x);
-                else attribute = new CoreDictionary.Attribute(Nature.nz);
+                if (term.word.trim().length() == 0) tagInfo = new CoreDictionary.PosTagInfo(PosTag.x);
+                else tagInfo = new CoreDictionary.PosTagInfo(PosTag.nz);
             }
-            else term.nature = attribute.nature[0];
-            Vertex vertex = new Vertex(term.word, attribute);
+            else term.tag = tagInfo.pos[0];
+            Vertex vertex = new Vertex(term.word, tagInfo);
             vertexList.add(vertex);
         }
 
@@ -177,7 +176,7 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
     {
         assert vertexList != null;
         int length = vertexList.size();
-        List<Term> resultList = new ArrayList<Term>(length);
+        List<Term> resultList = new ArrayList<>(length);
         Iterator<Vertex> iterator = vertexList.iterator();
         if (offsetEnabled)
         {
@@ -216,7 +215,7 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
 
     public static List<String> atomSegment(char[] sentence)
     {
-        List<String> atomList = new ArrayList<String>(sentence.length);
+        List<String> atomList = new ArrayList<>(sentence.length);
         final int maxLen = sentence.length - 1;
         final StringBuilder sbAtom = new StringBuilder();
         out:
@@ -281,6 +280,11 @@ public class CRFSegment extends CharacterBasedGenerativeModelSegment
         return atomList;
     }
 
+    /**
+     * 合并数词和英文字母作为一个原子然后分别作标记(M/W)以便在解码时生成相应的特征
+     * @param sentence
+     * @return  待分词的最小原子
+     */
     public static String[][] atomSegmentToTable(char[] sentence)
     {
         String table[][] = new String[sentence.length][3];

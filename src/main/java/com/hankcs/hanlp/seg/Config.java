@@ -43,11 +43,11 @@ public class Config
     /**
      * 是否加载用户词典
      */
-    public boolean useCustomDictionary = false;
+    public boolean useCustomDictionary = true;
     /**
      * 词性标注
      */
-    public boolean speechTagging = true;
+    public boolean posTagging = true;
     /**
      * 命名实体识别是否至少有一项被激活
      */

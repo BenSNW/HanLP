@@ -11,10 +11,10 @@
  */
 package com.hankcs.hanlp.seg.NShort.Path;
 
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 /**
  * 原子分词节点
@@ -41,33 +41,33 @@ public class AtomNode
      * 原子的词性
      * @return
      */
-    public Nature getNature()
+    public PosTag getNature()
     {
-        Nature nature = Nature.nz;
+        PosTag nature = PosTag.nz;
         switch (nPOS)
         {
             case Predefine.CT_CHINESE:
                 break;
             case Predefine.CT_INDEX:
             case Predefine.CT_NUM:
-                nature = Nature.m;
+                nature = PosTag.m;
                 sWord = "未##数";
                 break;
             case Predefine.CT_DELIMITER:
-                nature = Nature.w;
+                nature = PosTag.w;
                 break;
             case Predefine.CT_LETTER:
-                nature = Nature.nx;
+                nature = PosTag.nx;
                 sWord = "未##串";
                 break;
             case Predefine.CT_SINGLE://12021-2129-3121
                 if (Predefine.PATTERN_FLOAT_NUMBER.matcher(sWord).matches())//匹配浮点数
                 {
-                    nature = Nature.m;
+                    nature = PosTag.m;
                     sWord = "未##数";
                 } else
                 {
-                    nature = Nature.nx;
+                    nature = PosTag.nx;
                     sWord = "未##串";
                 }
                 break;
@@ -82,14 +82,14 @@ public class AtomNode
     {
         return "AtomNode{" +
                 "word='" + sWord + '\'' +
-                ", nature=" + nPOS +
+                ", pos=" + nPOS +
                 '}';
     }
 
     public static Vertex convert(String word, int type)
     {
         String name = word;
-        Nature nature = Nature.n;
+        PosTag nature = PosTag.n;
         int dValue = 1;
         switch (type)
         {
@@ -97,24 +97,24 @@ public class AtomNode
                 break;
             case Predefine.CT_INDEX:
             case Predefine.CT_NUM:
-                nature = Nature.m;
+                nature = PosTag.m;
                 word = "未##数";
                 break;
             case Predefine.CT_DELIMITER:
-                nature = Nature.w;
+                nature = PosTag.w;
                 break;
             case Predefine.CT_LETTER:
-                nature = Nature.nx;
+                nature = PosTag.nx;
                 word = "未##串";
                 break;
             case Predefine.CT_SINGLE://12021-2129-3121
 //                if (Pattern.compile("^(-?\\d+)(\\.\\d+)?$").matcher(word).matches())//匹配浮点数
 //                {
-//                    nature = Nature.m;
+//                    pos = PosTag.m;
 //                    word = "未##数";
 //                } else
 //                {
-                    nature = Nature.nx;
+                    nature = PosTag.nx;
                     word = "未##串";
 //                }
                 break;
@@ -122,6 +122,6 @@ public class AtomNode
                 break;
         }
 
-        return new Vertex(word, name, new CoreDictionary.Attribute(nature, dValue));
+        return new Vertex(word, name, new CoreDictionary.PosTagInfo(nature, dValue));
     }
 }

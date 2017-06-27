@@ -12,6 +12,7 @@
 package com.hankcs.hanlp.summary;
 
 import com.hankcs.hanlp.dictionary.stopword.CoreStopWordDictionary;
+import com.hankcs.hanlp.seg.CRF.CRFSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
@@ -25,7 +26,7 @@ public class KeywordExtractor
     /**
      * 默认分词器
      */
-    Segment defaultSegment = StandardTokenizer.SEGMENT;
+    static Segment defaultSegment = new CRFSegment();
 
     /**
      * 是否应当将这个term纳入计算，词性属于名词、动词、副词、形容词
@@ -36,8 +37,8 @@ public class KeywordExtractor
     public boolean shouldInclude(Term term)
     {
         // 除掉停用词
-        if (term.nature == null) return false;
-        String nature = term.nature.toString();
+        if (term.tag == null) return false;
+        String nature = term.tag.toString();
         char firstChar = nature.charAt(0);
         switch (firstChar)
         {

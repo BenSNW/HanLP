@@ -11,7 +11,7 @@
  */
 package com.hankcs.demo;
 
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.URLTokenizer;
 
@@ -36,7 +36,7 @@ public class DemoURLRecognition
         System.out.println(termList);
         for (Term term : termList)
         {
-            if (term.nature == Nature.xu)
+            if (term.tag == PosTag.xu)
                 System.out.println(term.word);
         }
     }

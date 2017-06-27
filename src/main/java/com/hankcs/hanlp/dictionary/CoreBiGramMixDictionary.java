@@ -15,16 +15,15 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.seg.common.Vertex;
-import com.hankcs.hanlp.utility.ByteUtil;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.ByteUtil;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.*;
 import java.util.Collection;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 核心词典的二元接续词典，混合采用词ID和词本身储存

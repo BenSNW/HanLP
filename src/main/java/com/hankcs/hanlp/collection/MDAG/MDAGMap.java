@@ -11,7 +11,7 @@
  */
 package com.hankcs.hanlp.collection.MDAG;
 
-import com.hankcs.hanlp.utility.ByteUtil;
+import com.hankcs.hanlp.util.ByteUtil;
 
 import java.util.*;
 

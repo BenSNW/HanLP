@@ -12,9 +12,9 @@
 package com.hankcs.hanlp.corpus.dictionary;
 
 import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
-import com.hankcs.hanlp.corpus.document.sentence.word.Word;
+
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+
 /**
  * @author hankcs
  */

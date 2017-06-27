@@ -14,16 +14,15 @@ package com.hankcs.hanlp.dictionary.common;
 
 import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 最简单的词典，每一行只有一个词，没别的

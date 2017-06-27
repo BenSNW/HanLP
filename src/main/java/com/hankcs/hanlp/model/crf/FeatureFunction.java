@@ -17,7 +17,16 @@ import com.hankcs.hanlp.corpus.io.ICacheAble;
 import java.io.DataOutputStream;
 
 /**
- * 特征函数，其实是tag.size个特征函数的集合
+ * 每个特征函数对应tag.size个输出，其实是特征函数的集合
+ *
+ * 每一行%x[#,#]生成一个CRFs中的点(state)函数: f(s, feature), 其中s为t时刻的的标签(output)，o为t时刻的上下文.
+ * 如CRF++说明文件中的示例函数: func1 = if (output = B and feature="U02:那") return 1 else return 0
+ *
+ * 按照[id] [参数o]的格式排列，你可能会奇怪，f(s, feature)应该接受两个参数才对。其实s隐藏起来了，注意到id不是连续的，
+ * 而是隔了四个，这表示这四个标签（s=b|m|e|s）和公共的参数o组合成了四个特征函数。
+ *
+ * 特别的，0-15为BEMS转移到BEMS的转移函数，也就是f(s', s, feature=null)。
+ *
  * @author hankcs
  */
 public class FeatureFunction implements ICacheAble
@@ -25,21 +34,21 @@ public class FeatureFunction implements ICacheAble
     /**
      * 环境参数
      */
-    char[] o;
+    char[] feature;
     /**
      * 标签参数
      */
 //    String s;
 
     /**
-     * 权值，按照index对应于tag的id
+     * 每个tag输出的权值，按照index对应于tag的id
      */
-    double[] w;
+    double[] weight;
 
     public FeatureFunction(char[] o, int tagSize)
     {
-        this.o = o;
-        w = new double[tagSize];
+        this.feature = o;
+        weight = new double[tagSize];
     }
 
     public FeatureFunction()
@@ -49,13 +58,13 @@ public class FeatureFunction implements ICacheAble
     @Override
     public void save(DataOutputStream out) throws Exception
     {
-        out.writeInt(o.length);
-        for (char c : o)
+        out.writeInt(feature.length);
+        for (char c : feature)
         {
             out.writeChar(c);
         }
-        out.writeInt(w.length);
-        for (double v : w)
+        out.writeInt(weight.length);
+        for (double v : weight)
         {
             out.writeDouble(v);
         }
@@ -65,16 +74,16 @@ public class FeatureFunction implements ICacheAble
     public boolean load(ByteArray byteArray)
     {
         int size = byteArray.nextInt();
-        o = new char[size];
+        feature = new char[size];
         for (int i = 0; i < size; ++i)
         {
-            o[i] = byteArray.nextChar();
+            feature[i] = byteArray.nextChar();
         }
         size = byteArray.nextInt();
-        w = new double[size];
+        weight = new double[size];
         for (int i = 0; i < size; ++i)
         {
-            w[i] = byteArray.nextDouble();
+            weight[i] = byteArray.nextDouble();
         }
         return true;
     }

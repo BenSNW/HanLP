@@ -15,7 +15,7 @@ import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.NotionalTokenizer;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.*;
 

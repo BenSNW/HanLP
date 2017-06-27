@@ -12,7 +12,6 @@
 package com.hankcs.demo;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.summary.TextRankSentence;
 
 import java.util.List;
 

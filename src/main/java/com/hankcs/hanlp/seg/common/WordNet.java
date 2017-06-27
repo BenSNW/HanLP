@@ -12,16 +12,16 @@
 package com.hankcs.hanlp.seg.common;
 
 import com.hankcs.hanlp.dictionary.CoreDictionary;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.seg.NShort.Path.AtomNode;
-import com.hankcs.hanlp.utility.MathTools;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.MathTools;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs
@@ -261,7 +261,7 @@ public class WordNet
         for (AtomNode atomNode : atomSegment)//Init the cost array
         {
             String sWord = atomNode.sWord;//init the word
-            Nature nature = Nature.n;
+            PosTag nature = PosTag.n;
             int id = -1;
             switch (atomNode.nPOS)
             {
@@ -269,16 +269,16 @@ public class WordNet
                     break;
                 case Predefine.CT_INDEX:
                 case Predefine.CT_NUM:
-                    nature = Nature.m;
+                    nature = PosTag.m;
                     sWord = "未##数";
                     id = CoreDictionary.M_WORD_ID;
                     break;
                 case Predefine.CT_DELIMITER:
                 case Predefine.CT_OTHER:
-                    nature = Nature.w;
+                    nature = PosTag.w;
                     break;
                 case Predefine.CT_SINGLE://12021-2129-3121
-                    nature = Nature.nx;
+                    nature = PosTag.nx;
                     sWord = "未##串";
                     id = CoreDictionary.X_WORD_ID;
                     break;
@@ -286,7 +286,7 @@ public class WordNet
                     break;
             }
             // 这些通用符的量级都在10万左右
-            add(line + offset, new Vertex(sWord, atomNode.sWord, new CoreDictionary.Attribute(nature, 10000), id));
+            add(line + offset, new Vertex(sWord, atomNode.sWord, new CoreDictionary.PosTagInfo(nature, 10000), id));
             offset += atomNode.sWord.length();
         }
     }
@@ -369,14 +369,14 @@ public class WordNet
             while (listIteratorFrom.hasNext())
             {
                 Vertex from = listIteratorFrom.next();
-                if (from.getNature() == Nature.ns)
+                if (from.getNature() == PosTag.ns)
                 {
                     int toIndex = row + from.realWord.length();
                     ListIterator<Vertex> listIteratorTo = vertexes[toIndex].listIterator();
                     while (listIteratorTo.hasNext())
                     {
                         Vertex to = listIteratorTo.next();
-                        if (to.getNature() == Nature.ns)
+                        if (to.getNature() == PosTag.ns)
                         {
                             // 我们不能直接改，因为很多条线路在公用指针
 //                            from.realWord += to.realWord;

@@ -18,12 +18,11 @@ import com.hankcs.hanlp.dictionary.common.CommonSynonymDictionary;
 import com.hankcs.hanlp.dictionary.common.CommonSynonymDictionaryEx;
 import com.hankcs.hanlp.dictionary.stopword.CoreStopWordDictionary;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 核心同义词词典(使用语义id作为value）
  *
@@ -74,8 +73,8 @@ public class CoreSynonymDictionaryEx
         for (Term term : sentence)
         {
             // 除掉停用词
-            if (term.nature == null) continue;
-            String nature = term.nature.toString();
+            if (term.tag == null) continue;
+            String nature = term.tag.toString();
             char firstChar = nature.charAt(0);
             switch (firstChar)
             {

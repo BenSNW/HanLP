@@ -11,7 +11,7 @@
  */
 package com.hankcs.hanlp.corpus.dependency.CoNll;
 
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 /**
  * 等效词编译器

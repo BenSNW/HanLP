@@ -14,9 +14,8 @@ package com.hankcs.test.corpus;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
 import com.hankcs.hanlp.dictionary.py.PinyinDictionary;
-import com.hankcs.hanlp.dictionary.py.PinyinUtil;
 import com.hankcs.hanlp.dictionary.py.String2PinyinConverter;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 import junit.framework.TestCase;
 
 /**

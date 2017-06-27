@@ -12,16 +12,9 @@
 package com.hankcs.test.seg;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.dictionary.other.CharType;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 import junit.framework.TestCase;
-
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author hankcs

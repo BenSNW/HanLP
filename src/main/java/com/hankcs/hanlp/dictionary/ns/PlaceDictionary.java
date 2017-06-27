@@ -12,23 +12,18 @@
 package com.hankcs.hanlp.dictionary.ns;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.algoritm.ahocorasick.trie.Emit;
-import com.hankcs.hanlp.algoritm.ahocorasick.trie.Trie;
 import com.hankcs.hanlp.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
 import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
-import com.hankcs.hanlp.corpus.tag.NR;
 import com.hankcs.hanlp.corpus.tag.NS;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.TransformMatrixDictionary;
-import com.hankcs.hanlp.dictionary.nr.NRDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.*;
 
-import static com.hankcs.hanlp.corpus.tag.NR.B;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 地名识别用的词典，实际上是对两个词典的包装
@@ -57,7 +52,7 @@ public class PlaceDictionary
     /**
      * 本词典专注的词的属性
      */
-    static final CoreDictionary.Attribute ATTRIBUTE = CoreDictionary.get(WORD_ID);
+    static final CoreDictionary.PosTagInfo ATTRIBUTE = CoreDictionary.get(WORD_ID);
 
     static
     {

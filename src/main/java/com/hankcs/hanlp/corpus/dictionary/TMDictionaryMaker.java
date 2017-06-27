@@ -15,13 +15,12 @@ package com.hankcs.hanlp.corpus.dictionary;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 转移矩阵词典制作工具
  * @author hankcs

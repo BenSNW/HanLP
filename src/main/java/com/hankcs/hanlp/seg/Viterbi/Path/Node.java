@@ -12,7 +12,7 @@
 package com.hankcs.hanlp.seg.Viterbi.Path;
 
 import com.hankcs.hanlp.seg.common.Vertex;
-import com.hankcs.hanlp.utility.MathTools;
+import com.hankcs.hanlp.util.MathTools;
 
 /**
  * @author hankcs

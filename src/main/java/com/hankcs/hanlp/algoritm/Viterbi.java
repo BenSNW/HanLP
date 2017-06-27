@@ -12,7 +12,7 @@
 package com.hankcs.hanlp.algoritm;
 
 import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.TransformMatrixDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 
@@ -99,30 +99,30 @@ public class Viterbi
      * @param vertexList                包含Vertex.B节点的路径
      * @param transformMatrixDictionary 词典对应的转移矩阵
      */
-    public static void compute(List<Vertex> vertexList, TransformMatrixDictionary<Nature> transformMatrixDictionary)
+    public static void compute(List<Vertex> vertexList, TransformMatrixDictionary<PosTag> transformMatrixDictionary)
     {
         int length = vertexList.size() - 1;
         double[][] cost = new double[2][];  // 滚动数组
         Iterator<Vertex> iterator = vertexList.iterator();
         Vertex start = iterator.next();
-        Nature pre = start.attribute.nature[0];
+        PosTag pre = start.tagInfo.pos[0];
         // 第一个是确定的
 //        start.confirmNature(pre);
         // 第二个也可以简单地算出来
         Vertex preItem;
-        Nature[] preTagSet;
+        PosTag[] preTagSet;
         {
             Vertex item = iterator.next();
-            cost[0] = new double[item.attribute.nature.length];
+            cost[0] = new double[item.tagInfo.pos.length];
             int j = 0;
             int curIndex = 0;
-            for (Nature cur : item.attribute.nature)
+            for (PosTag cur : item.tagInfo.pos)
             {
-                cost[0][j] = transformMatrixDictionary.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.attribute.frequency[curIndex] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                cost[0][j] = transformMatrixDictionary.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[curIndex] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
                 ++j;
                 ++curIndex;
             }
-            preTagSet = item.attribute.nature;
+            preTagSet = item.tagInfo.pos;
             preItem = item;
         }
         // 第三个开始复杂一些
@@ -131,17 +131,17 @@ public class Viterbi
             int index_i = i & 1;
             int index_i_1 = 1 - index_i;
             Vertex item = iterator.next();
-            cost[index_i] = new double[item.attribute.nature.length];
+            cost[index_i] = new double[item.tagInfo.pos.length];
             double perfect_cost_line = Double.MAX_VALUE;
             int k = 0;
-            Nature[] curTagSet = item.attribute.nature;
-            for (Nature cur : curTagSet)
+            PosTag[] curTagSet = item.tagInfo.pos;
+            for (PosTag cur : curTagSet)
             {
                 cost[index_i][k] = Double.MAX_VALUE;
                 int j = 0;
-                for (Nature p : preTagSet)
+                for (PosTag p : preTagSet)
                 {
-                    double now = cost[index_i_1][j] + transformMatrixDictionary.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.attribute.frequency[k] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                    double now = cost[index_i_1][j] + transformMatrixDictionary.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[k] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
                     if (now < cost[index_i][k])
                     {
                         cost[index_i][k] = now;

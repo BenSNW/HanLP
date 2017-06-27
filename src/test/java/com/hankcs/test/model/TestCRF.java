@@ -13,22 +13,18 @@ package com.hankcs.test.model;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;
-import com.hankcs.hanlp.corpus.dictionary.EasyDictionary;
 import com.hankcs.hanlp.corpus.document.CorpusLoader;
 import com.hankcs.hanlp.corpus.document.Document;
 import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.corpus.document.sentence.word.Word;
 import com.hankcs.hanlp.corpus.io.ByteArray;
-import com.hankcs.hanlp.corpus.io.EasyReader;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.io.LineHandler;
-import com.hankcs.hanlp.corpus.util.Precompiler;
 import com.hankcs.hanlp.model.crf.FeatureFunction;
 import com.hankcs.hanlp.model.crf.FeatureTemplate;
 import com.hankcs.hanlp.model.crf.CRFModel;
 import com.hankcs.hanlp.model.crf.Table;
 import com.hankcs.hanlp.seg.CRF.CRFSegment;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 import junit.framework.TestCase;
 
 import java.io.*;

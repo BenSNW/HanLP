@@ -13,7 +13,7 @@ package com.hankcs.test.corpus;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.dictionary.nr.TranslatedPersonDictionary;
@@ -104,7 +104,7 @@ public class TestMakeTranslateName extends TestCase
         for (String name : IOUtil.readLineList("data/dictionary/person/nrf.txt"))
         {
             List<Term> termList = segment.seg(name);
-            if (termList.get(0).nature != Nature.nrf)
+            if (termList.get(0).tag != PosTag.nrf)
             {
                 System.out.println(name + " : " + termList);
             }

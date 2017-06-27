@@ -18,7 +18,7 @@ import com.hankcs.hanlp.corpus.io.IOUtil;
 
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 声母韵母音调词典

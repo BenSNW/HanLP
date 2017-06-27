@@ -16,7 +16,7 @@ import com.hankcs.hanlp.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
 
 import java.util.TreeMap;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 繁体转台湾繁体

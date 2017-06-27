@@ -18,14 +18,12 @@ import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.dictionary.BaseSearcher;
 import com.hankcs.hanlp.dictionary.other.CharTable;
-import com.hankcs.hanlp.dictionary.py.Pinyin;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs

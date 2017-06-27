@@ -18,7 +18,7 @@ import com.hankcs.hanlp.corpus.tag.NR;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs

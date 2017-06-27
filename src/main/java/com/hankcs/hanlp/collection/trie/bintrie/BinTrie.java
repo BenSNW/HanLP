@@ -12,15 +12,14 @@
 package com.hankcs.hanlp.collection.trie.bintrie;
 
 import com.hankcs.hanlp.collection.trie.ITrie;
-import com.hankcs.hanlp.collection.trie.bintrie.BaseNode;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.*;
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 首字直接分配内存，之后二分动态数组的Trie树，能够平衡时间和空间

@@ -2,11 +2,10 @@ package com.hankcs.test.corpus;
 
 import com.hankcs.hanlp.corpus.dictionary.*;
 import com.hankcs.hanlp.corpus.tag.NS;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 import junit.framework.TestCase;
 
 import java.util.Map;
-import java.util.Set;
 
 public class SuffixDictionaryTest extends TestCase
 {

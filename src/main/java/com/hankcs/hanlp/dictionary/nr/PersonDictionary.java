@@ -15,17 +15,17 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
 import com.hankcs.hanlp.corpus.dictionary.item.EnumItem;
 import com.hankcs.hanlp.corpus.tag.NR;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.TransformMatrixDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.*;
 
 import static com.hankcs.hanlp.corpus.tag.NR.*;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 import static com.hankcs.hanlp.dictionary.nr.NRConstant.*;
 
 /**
@@ -48,7 +48,7 @@ public class PersonDictionary
      */
     public static AhoCorasickDoubleArrayTrie<NRPattern> trie;
 
-    public static final CoreDictionary.Attribute ATTRIBUTE = new CoreDictionary.Attribute(Nature.nr, 100);
+    public static final CoreDictionary.PosTagInfo ATTRIBUTE = new CoreDictionary.PosTagInfo(PosTag.nr, 100);
 
     static
     {

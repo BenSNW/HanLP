@@ -41,7 +41,7 @@ public class MutualInformationEntropyPhraseExtractor implements IPhraseExtractor
                             @Override
                             public boolean shouldInclude(Term term)
                             {
-                                switch (term.nature)
+                                switch (term.tag)
                                 {
                                     case t:
                                     case nx:

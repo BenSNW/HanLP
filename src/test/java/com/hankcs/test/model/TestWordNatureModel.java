@@ -11,11 +11,9 @@
  */
 package com.hankcs.test.model;
 
-import com.hankcs.hanlp.corpus.dependency.model.WordNatureWeightModelMaker;
 import com.hankcs.hanlp.corpus.io.ByteArray;
-import com.hankcs.hanlp.model.bigram.WordNatureDependencyModel;
 import com.hankcs.hanlp.model.maxent.MaxEntModel;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 import junit.framework.TestCase;
 
 /**

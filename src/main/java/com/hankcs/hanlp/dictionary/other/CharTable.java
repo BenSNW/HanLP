@@ -13,11 +13,10 @@ package com.hankcs.hanlp.dictionary.other;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
-import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 字符正规化表

@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs

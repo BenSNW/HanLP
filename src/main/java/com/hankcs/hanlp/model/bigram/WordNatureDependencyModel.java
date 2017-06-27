@@ -16,17 +16,16 @@ import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
 import com.hankcs.hanlp.corpus.dependency.model.WordNatureWeightModelMaker;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.dependency.common.Edge;
-import com.hankcs.hanlp.dependency.common.Node;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.dep.common.Edge;
+import com.hankcs.hanlp.dep.common.Node;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 词、词性相互构成依存关系的统计句法分析模型

@@ -14,13 +14,13 @@ package com.hankcs.test.corpus;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dictionary.DictionaryMaker;
 import com.hankcs.hanlp.corpus.dictionary.item.Item;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.BaseSearcher;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 import junit.framework.TestCase;
 
 import java.io.*;
@@ -89,7 +89,7 @@ public class TestCustomDictionary extends TestCase
     public void testNext() throws Exception
     {
         BaseSearcher searcher = CustomDictionary.getSearcher("都要亲口");
-        Map.Entry<String, CoreDictionary.Attribute> entry;
+        Map.Entry<String, CoreDictionary.PosTagInfo> entry;
         while ((entry = searcher.next()) != null)
         {
             int offset = searcher.getOffset();
@@ -134,7 +134,7 @@ public class TestCustomDictionary extends TestCase
             {
                 if (suffixSet.contains(item.key.charAt(item.key.length() - 1))) return true;
                 List<Term> termList = segment.seg(item.key);
-                if (termList.size() == 1 && termList.get(0).nature == Nature.nr)
+                if (termList.size() == 1 && termList.get(0).tag == PosTag.nr)
                 {
                     System.out.println(item);
                     return false;
@@ -146,8 +146,8 @@ public class TestCustomDictionary extends TestCase
 
     public void testCustomNature() throws Exception
     {
-        Nature pcNature1 = Nature.create("电脑品牌");
-        Nature pcNature2 = Nature.create("电脑品牌");
+        PosTag pcNature1 = PosTag.create("电脑品牌");
+        PosTag pcNature2 = PosTag.create("电脑品牌");
         assertEquals(pcNature1, pcNature2);
     }
 

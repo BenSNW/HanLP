@@ -12,18 +12,15 @@
 package com.hankcs.hanlp.dictionary;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 核心词典的二元接续词典，采用整型储存，高性能

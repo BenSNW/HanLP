@@ -13,21 +13,21 @@ package com.hankcs.hanlp.seg.HMM;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.model.trigram.CharacterBasedGenerativeModel;
-import com.hankcs.hanlp.seg.CharacterBasedGenerativeModelSegment;
+import com.hankcs.hanlp.seg.TransitionBasedSegment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.GlobalObjectPool;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.GlobalObjectPool;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.util.LinkedList;
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 基于2阶HMM（A Second-Order Hidden Markov Model, TriGram3阶文法模型）+ BMES序列标注的分词器
  *
  * @author hankcs
  */
-public class HMMSegment extends CharacterBasedGenerativeModelSegment
+public class HMMSegment extends TransitionBasedSegment
 {
     CharacterBasedGenerativeModel model;
 

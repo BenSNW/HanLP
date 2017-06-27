@@ -17,7 +17,7 @@ import com.hankcs.hanlp.corpus.dictionary.SimpleDictionary;
 import com.hankcs.hanlp.corpus.dictionary.StringDictionary;
 import com.hankcs.hanlp.corpus.dictionary.item.Item;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.BiGramDictionary;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
@@ -27,7 +27,7 @@ import com.hankcs.hanlp.dictionary.py.TonePinyinString2PinyinConverter;
 import com.hankcs.hanlp.dictionary.ts.TraditionalChineseDictionary;
 import com.hankcs.hanlp.seg.NShort.NShortSegment;
 import com.hankcs.hanlp.seg.Segment;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 import junit.framework.TestCase;
 
 import java.util.*;
@@ -245,11 +245,11 @@ public class TestXianDaiHanYu extends TestCase
         DictionaryMaker dictionaryMaker = new DictionaryMaker();
         dictionaryMaker.add("希望 v 7685 vn 616");
         Map<String, String> mapChineseToNature = new TreeMap<String, String>();
-        mapChineseToNature.put("名", Nature.n.toString());
-        mapChineseToNature.put("动", Nature.v.toString());
-        mapChineseToNature.put("形", Nature.a.toString());
-        mapChineseToNature.put("副", Nature.d.toString());
-        mapChineseToNature.put("形容", Nature.a.toString());
+        mapChineseToNature.put("名", PosTag.n.toString());
+        mapChineseToNature.put("动", PosTag.v.toString());
+        mapChineseToNature.put("形", PosTag.a.toString());
+        mapChineseToNature.put("副", PosTag.d.toString());
+        mapChineseToNature.put("形容", PosTag.a.toString());
         while (matcher.find())
         {
             String word = matcher.group(1);
@@ -261,7 +261,7 @@ public class TestXianDaiHanYu extends TestCase
                 int frequency = TextUtility.count(entry.getKey(), content);
                 if (frequency > 0) item.addLabel(entry.getValue(), frequency);
             }
-            if (item.getTotalFrequency() == 0) item.addLabel(Nature.nz.toString());
+            if (item.getTotalFrequency() == 0) item.addLabel(PosTag.nz.toString());
 //            System.out.println(item);
             dictionaryMaker.add(item);
         }

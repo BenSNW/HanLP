@@ -19,12 +19,12 @@ import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.TransformMatrixDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.List;
 import java.util.TreeMap;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 机构名识别用的词典，实际上是对两个词典的包装
@@ -52,7 +52,7 @@ public class OrganizationDictionary
     /**
      * 本词典专注的词的属性
      */
-    static final CoreDictionary.Attribute ATTRIBUTE = CoreDictionary.get(WORD_ID);
+    static final CoreDictionary.PosTagInfo ATTRIBUTE = CoreDictionary.get(WORD_ID);
 
     private static void addKeyword(TreeMap<String, String> patternMap, String keyword)
     {

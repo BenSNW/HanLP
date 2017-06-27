@@ -15,15 +15,16 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.tag.Nature;
-import com.hankcs.hanlp.utility.LexiconUtility;
-import com.hankcs.hanlp.utility.Predefine;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.corpus.tag.PosTag;
+import com.hankcs.hanlp.util.LexiconUtility;
+import com.hankcs.hanlp.util.Predefine;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 使用DoubleArrayTrie实现的核心词典
@@ -31,7 +32,7 @@ import static com.hankcs.hanlp.utility.Predefine.logger;
  */
 public class CoreDictionary
 {
-    public static DoubleArrayTrie<Attribute> trie = new DoubleArrayTrie<Attribute>();
+    public static DoubleArrayTrie<PosTagInfo> trie = new DoubleArrayTrie<PosTagInfo>();
     public final static String path = HanLP.Config.CoreDictionaryPath;
     public static final int totalFrequency = 221894;
 
@@ -39,14 +40,14 @@ public class CoreDictionary
     static
     {
         long start = System.currentTimeMillis();
-        if (!load(path))
+        if (load(path))
         {
-            logger.severe("核心词典" + path + "加载失败");
-            System.exit(-1);
+            logger.info(path + "加载成功，" + trie.size() + "个词条，耗时" + (System.currentTimeMillis() - start) + "ms");
         }
         else
         {
-            logger.info(path + "加载成功，" + trie.size() + "个词条，耗时" + (System.currentTimeMillis() - start) + "ms");
+            logger.severe("核心词典" + path + "加载失败");
+            System.exit(-1);
         }
     }
 
@@ -61,9 +62,9 @@ public class CoreDictionary
 
     private static boolean load(String path)
     {
-        logger.info("核心词典开始加载:" + path);
+        logger.info("核心词典开始加载: " + path);
         if (loadDat(path)) return true;
-        TreeMap<String, CoreDictionary.Attribute> map = new TreeMap<String, Attribute>();
+        TreeMap<String, PosTagInfo> map = new TreeMap<String, PosTagInfo>();
         BufferedReader br = null;
         try
         {
@@ -73,12 +74,13 @@ public class CoreDictionary
             long start = System.currentTimeMillis();
             while ((line = br.readLine()) != null)
             {
-                String param[] = line.split("\\s");
+//                System.out.println(line);
+                String param[] = line.split("\\s+");
                 int natureCount = (param.length - 1) / 2;
-                CoreDictionary.Attribute attribute = new CoreDictionary.Attribute(natureCount);
+                PosTagInfo attribute = new PosTagInfo(natureCount);
                 for (int i = 0; i < natureCount; ++i)
                 {
-                    attribute.nature[i] = Enum.valueOf(Nature.class, param[1 + 2 * i]);
+                    attribute.pos[i] = Enum.valueOf(PosTag.class, param[1 + 2 * i]);
                     attribute.frequency[i] = Integer.parseInt(param[2 + 2 * i]);
                     attribute.totalFrequency += attribute.frequency[i];
                 }
@@ -92,15 +94,15 @@ public class CoreDictionary
             try
             {
                 DataOutputStream out = new DataOutputStream(IOUtil.newOutputStream(path + Predefine.BIN_EXT));
-                Collection<CoreDictionary.Attribute> attributeList = map.values();
+                Collection<PosTagInfo> attributeList = map.values();
                 out.writeInt(attributeList.size());
-                for (CoreDictionary.Attribute attribute : attributeList)
+                for (PosTagInfo attribute : attributeList)
                 {
                     out.writeInt(attribute.totalFrequency);
-                    out.writeInt(attribute.nature.length);
-                    for (int i = 0; i < attribute.nature.length; ++i)
+                    out.writeInt(attribute.pos.length);
+                    for (int i = 0; i < attribute.pos.length; ++i)
                     {
-                        out.writeInt(attribute.nature[i].ordinal());
+                        out.writeInt(attribute.pos[i].ordinal());
                         out.writeInt(attribute.frequency[i]);
                     }
                 }
@@ -135,23 +137,25 @@ public class CoreDictionary
      */
     static boolean loadDat(String path)
     {
+        if (!new File(path + Predefine.BIN_EXT).exists())
+            return false;
         try
         {
             ByteArray byteArray = ByteArray.createByteArray(path + Predefine.BIN_EXT);
             if (byteArray == null) return false;
             int size = byteArray.nextInt();
-            CoreDictionary.Attribute[] attributes = new CoreDictionary.Attribute[size];
-            final Nature[] natureIndexArray = Nature.values();
+            PosTagInfo[] attributes = new PosTagInfo[size];
+            final PosTag[] natureIndexArray = PosTag.values();
             for (int i = 0; i < size; ++i)
             {
                 // 第一个是全部频次，第二个是词性个数
                 int currentTotalFrequency = byteArray.nextInt();
                 int length = byteArray.nextInt();
-                attributes[i] = new CoreDictionary.Attribute(length);
+                attributes[i] = new PosTagInfo(length);
                 attributes[i].totalFrequency = currentTotalFrequency;
                 for (int j = 0; j < length; ++j)
                 {
-                    attributes[i].nature[j] = natureIndexArray[byteArray.nextInt()];
+                    attributes[i].pos[j] = natureIndexArray[byteArray.nextInt()];
                     attributes[i].frequency[j] = byteArray.nextInt();
                 }
             }
@@ -170,7 +174,7 @@ public class CoreDictionary
      * @param key
      * @return
      */
-    public static Attribute get(String key)
+    public static PosTagInfo get(String key)
     {
         return trie.get(key);
     }
@@ -180,7 +184,7 @@ public class CoreDictionary
      * @param wordID
      * @return
      */
-    public static Attribute get(int wordID)
+    public static PosTagInfo get(int wordID)
     {
         return trie.get(wordID);
     }
@@ -193,7 +197,7 @@ public class CoreDictionary
      */
     public static int getTermFrequency(String term)
     {
-        Attribute attribute = get(term);
+        PosTagInfo attribute = get(term);
         if (attribute == null) return 0;
         return attribute.totalFrequency;
     }
@@ -211,12 +215,12 @@ public class CoreDictionary
     /**
      * 核心词典中的词属性
      */
-    static public class Attribute implements Serializable
+    static public class PosTagInfo implements Serializable
     {
         /**
          * 词性列表
          */
-        public Nature nature[];
+        public PosTag pos[];
         /**
          * 词性对应的词频
          */
@@ -226,31 +230,31 @@ public class CoreDictionary
 
         // 几个预定义的变量
 
-//        public static Attribute NUMBER = new Attribute()
+//        public static PosTagInfo NUMBER = new PosTagInfo()
 
-        public Attribute(int size)
+        public PosTagInfo(int size)
         {
-            nature = new Nature[size];
+            pos = new PosTag[size];
             frequency = new int[size];
         }
 
-        public Attribute(Nature[] nature, int[] frequency)
+        public PosTagInfo(PosTag[] nature, int[] frequency)
         {
-            this.nature = nature;
+            this.pos = nature;
             this.frequency = frequency;
         }
 
-        public Attribute(Nature nature, int frequency)
+        public PosTagInfo(PosTag nature, int frequency)
         {
             this(1);
-            this.nature[0] = nature;
+            this.pos[0] = nature;
             this.frequency[0] = frequency;
             totalFrequency = frequency;
         }
 
-        public Attribute(Nature[] nature, int[] frequency, int totalFrequency)
+        public PosTagInfo(PosTag[] nature, int[] frequency, int totalFrequency)
         {
-            this.nature = nature;
+            this.pos = nature;
             this.frequency = frequency;
             this.totalFrequency = totalFrequency;
         }
@@ -260,21 +264,21 @@ public class CoreDictionary
          *
          * @param nature
          */
-        public Attribute(Nature nature)
+        public PosTagInfo(PosTag nature)
         {
             this(nature, 1000);
         }
 
-        public static Attribute create(String natureWithFrequency)
+        public static PosTagInfo create(String natureWithFrequency)
         {
             try
             {
                 String param[] = natureWithFrequency.split(" ");
                 int natureCount = param.length / 2;
-                Attribute attribute = new Attribute(natureCount);
+                PosTagInfo attribute = new PosTagInfo(natureCount);
                 for (int i = 0; i < natureCount; ++i)
                 {
-                    attribute.nature[i] = LexiconUtility.convertStringToNature(param[2 * i], null);
+                    attribute.pos[i] = LexiconUtility.convertStringToNature(param[2 * i], null);
                     attribute.frequency[i] = Integer.parseInt(param[1 + 2 * i]);
                     attribute.totalFrequency += attribute.frequency[i];
                 }
@@ -293,15 +297,15 @@ public class CoreDictionary
          * @param natureIndexArray
          * @return
          */
-        public static Attribute create(ByteArray byteArray, Nature[] natureIndexArray)
+        public static PosTagInfo create(ByteArray byteArray, PosTag[] natureIndexArray)
         {
             int currentTotalFrequency = byteArray.nextInt();
             int length = byteArray.nextInt();
-            Attribute attribute = new Attribute(length);
+            PosTagInfo attribute = new PosTagInfo(length);
             attribute.totalFrequency = currentTotalFrequency;
             for (int j = 0; j < length; ++j)
             {
-                attribute.nature[j] = natureIndexArray[byteArray.nextInt()];
+                attribute.pos[j] = natureIndexArray[byteArray.nextInt()];
                 attribute.frequency[j] = byteArray.nextInt();
             }
 
@@ -319,7 +323,7 @@ public class CoreDictionary
         {
             try
             {
-                Nature pos = Enum.valueOf(Nature.class, nature);
+                PosTag pos = Enum.valueOf(PosTag.class, nature);
                 return getNatureFrequency(pos);
             }
             catch (IllegalArgumentException e)
@@ -334,10 +338,10 @@ public class CoreDictionary
          * @param nature 词性
          * @return 词频
          */
-        public int getNatureFrequency(final Nature nature)
+        public int getNatureFrequency(final PosTag nature)
         {
             int i = 0;
-            for (Nature pos : this.nature)
+            for (PosTag pos : this.pos)
             {
                 if (nature == pos)
                 {
@@ -353,7 +357,7 @@ public class CoreDictionary
          * @param nature
          * @return
          */
-        public boolean hasNature(Nature nature)
+        public boolean hasNature(PosTag nature)
         {
             return getNatureFrequency(nature) > 0;
         }
@@ -365,7 +369,7 @@ public class CoreDictionary
          */
         public boolean hasNatureStartsWith(String prefix)
         {
-            for (Nature n : nature)
+            for (PosTag n : pos)
             {
                 if (n.startsWith(prefix)) return true;
             }
@@ -376,9 +380,9 @@ public class CoreDictionary
         public String toString()
         {
             final StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < nature.length; ++i)
+            for (int i = 0; i < pos.length; ++i)
             {
-                sb.append(nature[i]).append(' ').append(frequency[i]).append(' ');
+                sb.append(pos[i]).append(' ').append(frequency[i]).append(' ');
             }
             return sb.toString();
         }
@@ -386,10 +390,10 @@ public class CoreDictionary
         public void save(DataOutputStream out) throws IOException
         {
             out.writeInt(totalFrequency);
-            out.writeInt(nature.length);
-            for (int i = 0; i < nature.length; ++i)
+            out.writeInt(pos.length);
+            for (int i = 0; i < pos.length; ++i)
             {
-                out.writeInt(nature[i].ordinal());
+                out.writeInt(pos[i].ordinal());
                 out.writeInt(frequency[i]);
             }
         }

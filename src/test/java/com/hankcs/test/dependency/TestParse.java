@@ -16,11 +16,11 @@ import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLLoader;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLWord;
 import com.hankcs.hanlp.corpus.dependency.CoNll.Evaluator;
-import com.hankcs.hanlp.corpus.tag.Nature;
-import com.hankcs.hanlp.dependency.CRFDependencyParser;
-import com.hankcs.hanlp.dependency.MaxEntDependencyParser;
-import com.hankcs.hanlp.dependency.WordNatureDependencyParser;
-import com.hankcs.hanlp.dependency.nnparser.NeuralNetworkDependencyParser;
+import com.hankcs.hanlp.corpus.tag.PosTag;
+import com.hankcs.hanlp.dep.CRFDependencyParser;
+import com.hankcs.hanlp.dep.MaxEntDependencyParser;
+import com.hankcs.hanlp.dep.WordNatureDependencyParser;
+import com.hankcs.hanlp.dep.nnparser.NeuralNetworkDependencyParser;
 import com.hankcs.hanlp.seg.common.Term;
 import junit.framework.TestCase;
 
@@ -35,13 +35,13 @@ public class TestParse extends TestCase
     public void testParse() throws Exception
     {
         List<Term> termList = new LinkedList<Term>();
-        termList.add(new Term("坚决", Nature.ad));
-        termList.add(new Term("惩治", Nature.v));
-        termList.add(new Term("贪污", Nature.v));
-        termList.add(new Term("贿赂", Nature.n));
-        termList.add(new Term("等", Nature.udeng));
-        termList.add(new Term("经济", Nature.n));
-        termList.add(new Term("犯罪", Nature.vn));
+        termList.add(new Term("坚决", PosTag.ad));
+        termList.add(new Term("惩治", PosTag.v));
+        termList.add(new Term("贪污", PosTag.v));
+        termList.add(new Term("贿赂", PosTag.n));
+        termList.add(new Term("等", PosTag.udeng));
+        termList.add(new Term("经济", PosTag.n));
+        termList.add(new Term("犯罪", PosTag.vn));
 
         System.out.println(CRFDependencyParser.compute(termList));
     }
@@ -82,13 +82,13 @@ public class TestParse extends TestCase
     {
         HanLP.Config.enableDebug();
         List<Term> termList = new LinkedList<Term>();
-        termList.add(new Term("坚决", Nature.ad));
-        termList.add(new Term("惩治", Nature.v));
-        termList.add(new Term("贪污", Nature.v));
-        termList.add(new Term("贿赂", Nature.n));
-        termList.add(new Term("等", Nature.udeng));
-        termList.add(new Term("经济", Nature.n));
-        termList.add(new Term("犯罪", Nature.vn));
+        termList.add(new Term("坚决", PosTag.ad));
+        termList.add(new Term("惩治", PosTag.v));
+        termList.add(new Term("贪污", PosTag.v));
+        termList.add(new Term("贿赂", PosTag.n));
+        termList.add(new Term("等", PosTag.udeng));
+        termList.add(new Term("经济", PosTag.n));
+        termList.add(new Term("犯罪", PosTag.vn));
         System.out.println(CRFDependencyParser.compute(termList));
     }
 
@@ -105,7 +105,7 @@ public class TestParse extends TestCase
             List<Term> termList = new LinkedList<Term>();
             for (CoNLLWord word : sentence.word)
             {
-                termList.add(new Term(word.LEMMA, Nature.valueOf(word.POSTAG)));
+                termList.add(new Term(word.LEMMA, PosTag.valueOf(word.POSTAG)));
             }
             CoNLLSentence out = CRFDependencyParser.compute(termList);
             evaluator.e(sentence, out);

@@ -15,7 +15,7 @@ import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.seg.NShort.NShortSegment;
 import com.hankcs.hanlp.suggest.ISuggester;
 import com.hankcs.hanlp.suggest.Suggester;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 import junit.framework.TestCase;
 
 import java.util.List;

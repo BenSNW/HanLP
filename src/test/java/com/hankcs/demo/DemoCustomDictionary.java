@@ -41,10 +41,10 @@ public class DemoCustomDictionary
 
         // DoubleArrayTrie分词
         final char[] charArray = text.toCharArray();
-        CustomDictionary.parseText(charArray, new AhoCorasickDoubleArrayTrie.IHit<CoreDictionary.Attribute>()
+        CustomDictionary.parseText(charArray, new AhoCorasickDoubleArrayTrie.IHit<CoreDictionary.PosTagInfo>()
         {
             @Override
-            public void hit(int begin, int end, CoreDictionary.Attribute value)
+            public void hit(int begin, int end, CoreDictionary.PosTagInfo value)
             {
                 System.out.printf("[%d:%d]=%s %s\n", begin, end, new String(charArray, begin, end - begin), value);
             }

@@ -11,7 +11,7 @@
  */
 package com.hankcs.hanlp.corpus.document.sentence.word;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 一个单词
  * @author hankcs

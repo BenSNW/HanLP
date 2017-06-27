@@ -11,20 +11,17 @@
  */
 package com.hankcs.hanlp.corpus.dictionary;
 
-import com.hankcs.hanlp.corpus.document.CorpusLoader;
-import com.hankcs.hanlp.corpus.document.Document;
 import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.corpus.document.sentence.word.Word;
 import com.hankcs.hanlp.corpus.tag.NR;
-import com.hankcs.hanlp.corpus.tag.Nature;
-import com.hankcs.hanlp.corpus.util.Precompiler;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.corpus.tag.PosTag;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * nr词典（词典+ngram转移+词性转移矩阵）制作工具
@@ -83,13 +80,13 @@ public class NRDictionaryMaker extends CommonDictionaryMaker
             while (listIterator.hasNext())
             {
                 IWord word = listIterator.next();
-                if (!word.getLabel().equals(Nature.nr.toString()))
+                if (!word.getLabel().equals(PosTag.nr.toString()))
                 {
                     word.setLabel(NR.A.toString());
                 }
                 else
                 {
-                    if (!pre.getLabel().equals(Nature.nr.toString()))
+                    if (!pre.getLabel().equals(PosTag.nr.toString()))
                     {
                         pre.setLabel(NR.K.toString());
                     }
@@ -102,7 +99,7 @@ public class NRDictionaryMaker extends CommonDictionaryMaker
             while (listIterator.hasPrevious())
             {
                 IWord word = listIterator.previous();
-                if (word.getLabel().equals(Nature.nr.toString()))
+                if (word.getLabel().equals(PosTag.nr.toString()))
                 {
                     String label = next.getLabel();
                     if (label.equals("A")) next.setLabel("L");
@@ -116,7 +113,7 @@ public class NRDictionaryMaker extends CommonDictionaryMaker
             while (listIterator.hasNext())
             {
                 IWord word = listIterator.next();
-                if (word.getLabel().equals(Nature.nr.toString()))
+                if (word.getLabel().equals(PosTag.nr.toString()))
                 {
                     switch (word.getValue().length())
                     {

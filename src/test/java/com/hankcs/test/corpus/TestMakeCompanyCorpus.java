@@ -17,7 +17,7 @@ import com.hankcs.hanlp.corpus.dictionary.EasyDictionary;
 import com.hankcs.hanlp.corpus.dictionary.NTDictionaryMaker;
 import com.hankcs.hanlp.corpus.document.CorpusLoader;
 import com.hankcs.hanlp.corpus.document.Document;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.seg.Dijkstra.DijkstraSegment;
 import com.hankcs.hanlp.seg.common.Term;
 import junit.framework.TestCase;
@@ -49,7 +49,7 @@ public class TestMakeCompanyCorpus extends TestCase
             List<Term> termList = segment.seg(line);
             if (termList.size() == 0) continue;
             Term last = termList.get(termList.size() - 1);
-            last.nature = Nature.nis;
+            last.tag = PosTag.nis;
             br.write("[");
             for (Term term : termList)
             {

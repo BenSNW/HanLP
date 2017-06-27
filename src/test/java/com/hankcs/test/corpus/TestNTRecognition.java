@@ -17,9 +17,8 @@ import com.hankcs.hanlp.corpus.dictionary.item.Item;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.common.CommonStringDictionary;
-import com.hankcs.hanlp.dictionary.nt.OrganizationDictionary;
 import com.hankcs.hanlp.seg.Dijkstra.DijkstraSegment;
-import com.hankcs.hanlp.utility.LexiconUtility;
+import com.hankcs.hanlp.util.LexiconUtility;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -63,7 +62,7 @@ public class TestNTRecognition extends TestCase
         {
             String word = entry.getKey();
             Item item = entry.getValue();
-            CoreDictionary.Attribute attribute = LexiconUtility.getAttribute(word);
+            CoreDictionary.PosTagInfo attribute = LexiconUtility.getAttribute(word);
             if (attribute == null) continue;
             if (item.containsLabel("P") && attribute.hasNatureStartsWith("u"))
             {

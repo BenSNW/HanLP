@@ -11,14 +11,12 @@
  */
 package com.hankcs.hanlp.seg.Other;
 
-import com.hankcs.hanlp.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
 import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.DictionaryBasedSegment;
 import com.hankcs.hanlp.seg.NShort.Path.AtomNode;
-import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
 import java.util.Arrays;
@@ -38,17 +36,17 @@ public class DoubleArrayTrieSegment extends DictionaryBasedSegment
         char[] charArray = sentence;
         final int[] wordNet = new int[charArray.length];
         Arrays.fill(wordNet, 1);
-        final Nature[] natureArray = config.speechTagging ? new Nature[charArray.length] : null;
-        DoubleArrayTrie<CoreDictionary.Attribute>.Searcher searcher = CoreDictionary.trie.getSearcher(sentence, 0);
+        final PosTag[] natureArray = config.posTagging ? new PosTag[charArray.length] : null;
+        DoubleArrayTrie<CoreDictionary.PosTagInfo>.Searcher searcher = CoreDictionary.trie.getSearcher(sentence, 0);
         while (searcher.next())
         {
             int length = searcher.length;
             if (length > wordNet[searcher.begin])
             {
                 wordNet[searcher.begin] = length;
-                if (config.speechTagging)
+                if (config.posTagging)
                 {
-                    natureArray[searcher.begin] = searcher.value.nature[0];
+                    natureArray[searcher.begin] = searcher.value.pos[0];
                 }
             }
         }
@@ -59,15 +57,15 @@ public class DoubleArrayTrieSegment extends DictionaryBasedSegment
                 if (length > wordNet[begin])
                 {
                     wordNet[begin] = length;
-                    if (config.speechTagging)
+                    if (config.posTagging)
                     {
-                        natureArray[begin] = value.nature[0];
+                        natureArray[begin] = value.pos[0];
                     }
                 }
             });
         }
         LinkedList<Term> termList = new LinkedList<Term>();
-        if (config.speechTagging)
+        if (config.posTagging)
         {
             for (int i = 0; i < natureArray.length; )
             {
@@ -98,7 +96,7 @@ public class DoubleArrayTrieSegment extends DictionaryBasedSegment
         }
         for (int i = 0; i < wordNet.length; )
         {
-            Term term = new Term(new String(charArray, i, wordNet[i]), config.speechTagging ? (natureArray[i] == null ? Nature.nz : natureArray[i]) : null);
+            Term term = new Term(new String(charArray, i, wordNet[i]), config.posTagging ? (natureArray[i] == null ? PosTag.nz : natureArray[i]) : null);
             term.offset = i;
             termList.add(term);
             i += wordNet[i];

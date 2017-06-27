@@ -12,7 +12,7 @@
 package com.hankcs.hanlp.dictionary.nr;
 
 import com.hankcs.hanlp.dictionary.CoreDictionary;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 /**
  * 人名识别中常用的一些常量
@@ -27,5 +27,5 @@ public class NRConstant
     /**
      * 本词典专注的词的属性
      */
-    public static final CoreDictionary.Attribute ATTRIBUTE = CoreDictionary.get(WORD_ID);
+    public static final CoreDictionary.PosTagInfo ATTRIBUTE = CoreDictionary.get(WORD_ID);
 }

@@ -12,14 +12,14 @@
 package com.hankcs.hanlp.corpus.dictionary;
 
 import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.BaseSearcher;
-import com.hankcs.hanlp.corpus.tag.Nature;
 
 import java.io.*;
 import java.util.*;
 
 import static com.hankcs.hanlp.HanLP.Config.IOAdapter;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 一个通用的、满足特定格式的双数组词典
@@ -63,7 +63,7 @@ public class EasyDictionary
                 Attribute attribute = new Attribute(natureCount);
                 for (int i = 0; i < natureCount; ++i)
                 {
-                    attribute.nature[i] = Enum.valueOf(Nature.class, param[1 + 2 * i]);
+                    attribute.nature[i] = Enum.valueOf(PosTag.class, param[1 + 2 * i]);
                     attribute.frequency[i] = Integer.parseInt(param[2 + 2 * i]);
                     attribute.totalFrequency += attribute.frequency[i];
                 }
@@ -157,7 +157,7 @@ public class EasyDictionary
         /**
          * 词性列表
          */
-        public Nature nature[];
+        public PosTag nature[];
         /**
          * 词性对应的词频
          */
@@ -167,17 +167,17 @@ public class EasyDictionary
 
         public Attribute(int size)
         {
-            nature = new Nature[size];
+            nature = new PosTag[size];
             frequency = new int[size];
         }
 
-        public Attribute(Nature[] nature, int[] frequency)
+        public Attribute(PosTag[] nature, int[] frequency)
         {
             this.nature = nature;
             this.frequency = frequency;
         }
 
-        public Attribute(Nature nature, int frequency)
+        public Attribute(PosTag nature, int frequency)
         {
             this(1);
             this.nature[0] = nature;
@@ -190,7 +190,7 @@ public class EasyDictionary
          *
          * @param nature
          */
-        public Attribute(Nature nature)
+        public Attribute(PosTag nature)
         {
             this(nature, 1000);
         }
@@ -206,7 +206,7 @@ public class EasyDictionary
         {
             try
             {
-                Nature pos = Enum.valueOf(Nature.class, nature);
+                PosTag pos = Enum.valueOf(PosTag.class, nature);
                 return getNatureFrequency(pos);
             }
             catch (IllegalArgumentException e)
@@ -221,11 +221,11 @@ public class EasyDictionary
          * @param nature 词性
          * @return 词频
          */
-        public int getNatureFrequency(final Nature nature)
+        public int getNatureFrequency(final PosTag nature)
         {
             int result = 0;
             int i = 0;
-            for (Nature pos : this.nature)
+            for (PosTag pos : this.nature)
             {
                 if (nature == pos)
                 {
@@ -239,8 +239,8 @@ public class EasyDictionary
         @Override
         public String toString()
         {
-            return "Attribute{" +
-                    "nature=" + Arrays.toString(nature) +
+            return "PosTagInfo{" +
+                    "pos=" + Arrays.toString(nature) +
                     ", frequency=" + Arrays.toString(frequency) +
                     '}';
         }

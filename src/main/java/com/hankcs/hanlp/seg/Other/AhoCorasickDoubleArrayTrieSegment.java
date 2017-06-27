@@ -12,15 +12,15 @@ package com.hankcs.hanlp.seg.Other;
 
 import com.hankcs.hanlp.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.seg.DictionaryBasedSegment;
 import com.hankcs.hanlp.seg.NShort.Path.AtomNode;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 import java.io.IOException;
 import java.util.*;
@@ -33,7 +33,7 @@ import java.util.*;
  */
 public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
 {
-    AhoCorasickDoubleArrayTrie<CoreDictionary.Attribute> trie;
+    AhoCorasickDoubleArrayTrie<CoreDictionary.PosTagInfo> trie;
 
     @Override
     protected List<Term> segSentence(char[] sentence)
@@ -45,20 +45,20 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
         }
         final int[] wordNet = new int[sentence.length];
         Arrays.fill(wordNet, 1);
-        final Nature[] natureArray = config.speechTagging ? new Nature[sentence.length] : null;
+        final PosTag[] natureArray = config.posTagging ? new PosTag[sentence.length] : null;
         trie.parseText(sentence, (begin, end, value) -> {
             int length = end - begin;
             if (length > wordNet[begin])
             {
                 wordNet[begin] = length;
-                if (config.speechTagging)
+                if (config.posTagging)
                 {
-                    natureArray[begin] = value.nature[0];
+                    natureArray[begin] = value.pos[0];
                 }
             }
         });
         LinkedList<Term> termList = new LinkedList<Term>();
-        if (config.speechTagging)
+        if (config.posTagging)
         {
             for (int i = 0; i < natureArray.length; )
             {
@@ -89,7 +89,7 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
         }
         for (int i = 0; i < wordNet.length; )
         {
-            Term term = new Term(new String(sentence, i, wordNet[i]), config.speechTagging ? (natureArray[i] == null ? Nature.nz : natureArray[i]) : null);
+            Term term = new Term(new String(sentence, i, wordNet[i]), config.posTagging ? (natureArray[i] == null ? PosTag.nz : natureArray[i]) : null);
             term.offset = i;
             termList.add(term);
             i += wordNet[i];
@@ -101,7 +101,7 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
     {
         super();
         config.useCustomDictionary = false;
-        config.speechTagging = true;
+        config.posTagging = true;
     }
 
     @Override
@@ -110,20 +110,20 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
         throw new UnsupportedOperationException("AhoCorasickDoubleArrayTrieSegment暂时不支持用户词典。");
     }
 
-    public AhoCorasickDoubleArrayTrie<CoreDictionary.Attribute> getTrie()
+    public AhoCorasickDoubleArrayTrie<CoreDictionary.PosTagInfo> getTrie()
     {
         return trie;
     }
 
-    public void setTrie(AhoCorasickDoubleArrayTrie<CoreDictionary.Attribute> trie)
+    public void setTrie(AhoCorasickDoubleArrayTrie<CoreDictionary.PosTagInfo> trie)
     {
         this.trie = trie;
     }
 
     public AhoCorasickDoubleArrayTrieSegment loadDictionary(String... pathArray)
     {
-        trie = new AhoCorasickDoubleArrayTrie<CoreDictionary.Attribute>();
-        TreeMap<String, CoreDictionary.Attribute> map = null;
+        trie = new AhoCorasickDoubleArrayTrie<CoreDictionary.PosTagInfo>();
+        TreeMap<String, CoreDictionary.PosTagInfo> map = null;
         try
         {
             map = IOUtil.loadDictionary(pathArray);

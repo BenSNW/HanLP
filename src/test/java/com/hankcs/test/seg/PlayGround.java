@@ -39,7 +39,7 @@ public class PlayGround extends TestCase
         List<Term> terms = NShortSegment.parse(sentence);
         for (Term wr : terms)
         {
-            System.out.print(wr.word + wr.nature);
+            System.out.print(wr.word + wr.tag);
         }
         System.out.println();
     }

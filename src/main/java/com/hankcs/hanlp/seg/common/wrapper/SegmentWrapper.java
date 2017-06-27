@@ -13,7 +13,7 @@ package com.hankcs.hanlp.seg.common.wrapper;
 
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.BufferedReader;
 import java.io.IOException;

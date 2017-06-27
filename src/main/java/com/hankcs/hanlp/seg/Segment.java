@@ -14,7 +14,7 @@ package com.hankcs.hanlp.seg;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.collection.trie.DoubleArrayTrie;
 import com.hankcs.hanlp.collection.trie.bintrie.BaseNode;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.dictionary.other.CharTable;
@@ -23,13 +23,13 @@ import com.hankcs.hanlp.seg.NShort.Path.AtomNode;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
-import com.hankcs.hanlp.utility.SentencesUtil;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.Predefine;
+import com.hankcs.hanlp.util.SentencesUtil;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.util.*;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 分词器（分词服务）<br>
@@ -195,7 +195,7 @@ public abstract class Segment
         Vertex[] wordNet = new Vertex[vertexList.size()];
         vertexList.toArray(wordNet);
         // DAT合并
-        DoubleArrayTrie<CoreDictionary.Attribute> dat = CustomDictionary.dat;
+        DoubleArrayTrie<CoreDictionary.PosTagInfo> dat = CustomDictionary.dat;
         for (int i = 0; i < wordNet.length; ++i)
         {
             int state = 1;
@@ -204,12 +204,12 @@ public abstract class Segment
             {
                 int to = i + 1;
                 int end = to;
-                CoreDictionary.Attribute value = dat.output(state);
+                CoreDictionary.PosTagInfo value = dat.output(state);
                 for (; to < wordNet.length; ++to)
                 {
                     state = dat.transition(wordNet[to].realWord, state);
                     if (state < 0) break;
-                    CoreDictionary.Attribute output = dat.output(state);
+                    CoreDictionary.PosTagInfo output = dat.output(state);
                     if (output != null)
                     {
                         value = output;
@@ -229,12 +229,12 @@ public abstract class Segment
             for (int i = 0; i < wordNet.length; ++i)
             {
                 if (wordNet[i] == null) continue;
-                BaseNode<CoreDictionary.Attribute> state = CustomDictionary.trie.transition(wordNet[i].realWord.toCharArray(), 0);
+                BaseNode<CoreDictionary.PosTagInfo> state = CustomDictionary.trie.transition(wordNet[i].realWord.toCharArray(), 0);
                 if (state != null)
                 {
                     int to = i + 1;
                     int end = to;
-                    CoreDictionary.Attribute value = state.getValue();
+                    CoreDictionary.PosTagInfo value = state.getValue();
                     for (; to < wordNet.length; ++to)
                     {
                         if (wordNet[to] == null) continue;
@@ -274,7 +274,7 @@ public abstract class Segment
         vertexList.toArray(wordNet);
         // DAT合并
         int line = 1;
-        DoubleArrayTrie<CoreDictionary.Attribute> dat = CustomDictionary.dat;
+        DoubleArrayTrie<CoreDictionary.PosTagInfo> dat = CustomDictionary.dat;
         for (int i = 0; i < wordNet.length; ++i)
         {
             int state = 1;
@@ -283,12 +283,12 @@ public abstract class Segment
             {
                 int to = i + 1;
                 int end = to;
-                CoreDictionary.Attribute value = dat.output(state);
+                CoreDictionary.PosTagInfo value = dat.output(state);
                 for (; to < wordNet.length; ++to)
                 {
                     state = dat.transition(wordNet[to].realWord, state);
                     if (state < 0) break;
-                    CoreDictionary.Attribute output = dat.output(state);
+                    CoreDictionary.PosTagInfo output = dat.output(state);
                     if (output != null)
                     {
                         value = output;
@@ -315,12 +315,12 @@ public abstract class Segment
             for (int i = 0; i < wordNet.length; ++i)
             {
                 if (wordNet[i] == null) continue;
-                BaseNode<CoreDictionary.Attribute> state = CustomDictionary.trie.transition(wordNet[i].realWord.toCharArray(), 0);
+                BaseNode<CoreDictionary.PosTagInfo> state = CustomDictionary.trie.transition(wordNet[i].realWord.toCharArray(), 0);
                 if (state != null)
                 {
                     int to = i + 1;
                     int end = to;
-                    CoreDictionary.Attribute value = state.getValue();
+                    CoreDictionary.PosTagInfo value = state.getValue();
                     for (; to < wordNet.length; ++to)
                     {
                         if (wordNet[to] == null) continue;
@@ -361,11 +361,11 @@ public abstract class Segment
      * @param end 结束下标（不包含）
      * @param value 新的属性
      */
-    private static void combineWords(Vertex[] wordNet, int start, int end, CoreDictionary.Attribute value)
+    private static void combineWords(Vertex[] wordNet, int start, int end, CoreDictionary.PosTagInfo value)
     {
         if (start + 1 == end)   // 小优化，如果只有一个词，那就不需要合并，直接应用新属性
         {
-            wordNet[start].attribute = value;
+            wordNet[start].tagInfo = value;
         }
         else
         {
@@ -395,11 +395,11 @@ public abstract class Segment
         while (iterator.hasNext())
         {
             Vertex pre = iterator.next();
-            if (pre.hasNature(Nature.m))
+            if (pre.hasNature(PosTag.m))
             {
                 sbQuantifier.append(pre.realWord);
                 Vertex cur = null;
-                while (iterator.hasNext() && (cur = iterator.next()).hasNature(Nature.m))
+                while (iterator.hasNext() && (cur = iterator.next()).hasNature(PosTag.m))
                 {
                     sbQuantifier.append(cur.realWord);
                     iterator.remove();
@@ -407,11 +407,11 @@ public abstract class Segment
                 }
                 if (cur != null)
                 {
-                    if ((cur.hasNature(Nature.q) || cur.hasNature(Nature.qv) || cur.hasNature(Nature.qt)))
+                    if ((cur.hasNature(PosTag.q) || cur.hasNature(PosTag.qv) || cur.hasNature(PosTag.qt)))
                     {
                         if (config.indexMode)
                         {
-                            wordNetAll.add(line, new Vertex(sbQuantifier.toString(), new CoreDictionary.Attribute(Nature.m)));
+                            wordNetAll.add(line, new Vertex(sbQuantifier.toString(), new CoreDictionary.PosTagInfo(PosTag.m)));
                         }
                         sbQuantifier.append(cur.realWord);
                         iterator.remove();
@@ -419,14 +419,14 @@ public abstract class Segment
                     }
                     else
                     {
-                        line += cur.realWord.length();   // (cur = iterator.next()).hasNature(Nature.m) 最后一个next可能不含q词性
+                        line += cur.realWord.length();   // (cur = iterator.next()).hasNature(PosTag.m) 最后一个next可能不含q词性
                     }
                 }
                 if (sbQuantifier.length() != pre.realWord.length())
                 {
                     pre.realWord = sbQuantifier.toString();
                     pre.word = Predefine.TAG_NUMBER;
-                    pre.attribute = new CoreDictionary.Attribute(Nature.mq);
+                    pre.tagInfo = new CoreDictionary.PosTagInfo(PosTag.mq);
                     pre.wordID = CoreDictionary.M_WORD_ID;
                     sbQuantifier.setLength(0);
                 }
@@ -620,7 +620,7 @@ public abstract class Segment
      */
     public Segment enablePartOfSpeechTagging(boolean enable)
     {
-        config.speechTagging = enable;
+        config.posTagging = enable;
         return this;
     }
 

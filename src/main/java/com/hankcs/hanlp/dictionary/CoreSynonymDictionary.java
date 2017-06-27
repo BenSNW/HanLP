@@ -17,10 +17,9 @@ import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.dictionary.common.CommonSynonymDictionary;
 import com.hankcs.hanlp.seg.common.Term;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 核心同义词词典
  *

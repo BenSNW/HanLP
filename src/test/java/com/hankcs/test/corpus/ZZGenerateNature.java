@@ -11,7 +11,7 @@
  */
 package com.hankcs.test.corpus;
 
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import junit.framework.TestCase;
 
 /**
@@ -166,6 +166,6 @@ public class ZZGenerateNature extends TestCase
 
     public void testSize() throws Exception
     {
-            System.out.println(Nature.values().length);
+            System.out.println(PosTag.values().length);
     }
 }

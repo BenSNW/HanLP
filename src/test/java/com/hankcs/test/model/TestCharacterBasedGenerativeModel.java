@@ -16,14 +16,11 @@ import com.hankcs.hanlp.corpus.document.Document;
 import com.hankcs.hanlp.corpus.document.sentence.word.Word;
 import com.hankcs.hanlp.corpus.io.ByteArray;
 import com.hankcs.hanlp.model.trigram.CharacterBasedGenerativeModel;
-import com.hankcs.hanlp.seg.CharacterBasedGenerativeModelSegment;
 import com.hankcs.hanlp.seg.HMM.HMMSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import junit.framework.TestCase;
 
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 

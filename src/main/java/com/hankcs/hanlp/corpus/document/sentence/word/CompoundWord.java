@@ -14,7 +14,7 @@ package com.hankcs.hanlp.corpus.document.sentence.word;
 
 import java.util.LinkedList;
 import java.util.List;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 复合词，由两个或以上的word构成
  * @author hankcs

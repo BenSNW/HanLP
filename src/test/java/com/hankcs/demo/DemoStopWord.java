@@ -45,7 +45,7 @@ public class DemoStopWord
             @Override
             public boolean shouldInclude(Term term)
             {
-                switch (term.nature)
+                switch (term.tag)
                 {
                     case nz:
                     return !CoreStopWordDictionary.contains(term.word);

@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.TreeMap;
 import com.hankcs.hanlp.corpus.synonym.Synonym.Type;
-import com.hankcs.hanlp.corpus.util.Precompiler;
 import com.hankcs.hanlp.dictionary.CoreBiGramTableDictionary;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 一个没有指定资源位置的通用同义词词典
@@ -205,7 +204,7 @@ public class CommonSynonymDictionary
                 sbOut.append(synonym.realWord);
             }
             else sbOut.append(term.word);
-            preWord = PosTagCompiler.compile(term.nature.toString(), term.word);
+            preWord = PosTagCompiler.compile(term.tag.toString(), term.word);
         }
         return sbOut.toString();
     }

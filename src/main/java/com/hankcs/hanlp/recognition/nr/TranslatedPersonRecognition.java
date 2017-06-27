@@ -12,12 +12,12 @@
 package com.hankcs.hanlp.recognition.nr;
 
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.nr.TranslatedPersonDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -49,7 +49,7 @@ public class TranslatedPersonRecognition
             Vertex vertex = listIterator.next();
             if (appendTimes > 0)
             {
-                if (vertex.guessNature() == Nature.nrf || TranslatedPersonDictionary.containsKey(vertex.realWord))
+                if (vertex.guessNature() == PosTag.nrf || TranslatedPersonDictionary.containsKey(vertex.realWord))
                 {
                     sbName.append(vertex.realWord);
                     ++appendTimes;
@@ -63,7 +63,7 @@ public class TranslatedPersonRecognition
                         {
                             System.out.println("音译人名识别出：" + sbName.toString());
                         }
-                        wordNetOptimum.insert(activeLine, new Vertex(Predefine.TAG_PEOPLE, sbName.toString(), new CoreDictionary.Attribute(Nature.nrf), WORD_ID), wordNetAll);
+                        wordNetOptimum.insert(activeLine, new Vertex(Predefine.TAG_PEOPLE, sbName.toString(), new CoreDictionary.PosTagInfo(PosTag.nrf), WORD_ID), wordNetAll);
                     }
                     sbName.setLength(0);
                     appendTimes = 0;
@@ -72,7 +72,7 @@ public class TranslatedPersonRecognition
             else
             {
                 // nrf和nsf触发识别
-                if (vertex.guessNature() == Nature.nrf || vertex.getNature() == Nature.nsf
+                if (vertex.guessNature() == PosTag.nrf || vertex.getNature() == PosTag.nsf
 //                        || TranslatedPersonDictionary.containsKey(vertex.realWord)
                         )
                 {

@@ -15,16 +15,15 @@ import com.hankcs.hanlp.corpus.document.CorpusLoader;
 import com.hankcs.hanlp.corpus.document.Document;
 import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.corpus.document.sentence.word.Word;
-import com.hankcs.hanlp.corpus.tag.Nature;
-import com.hankcs.hanlp.corpus.util.CorpusUtil;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.corpus.util.Precompiler;
-import com.hankcs.hanlp.utility.TextUtility;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.TextUtility;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * @author hankcs
@@ -70,8 +69,8 @@ public class NatureDictionaryMaker extends CommonDictionaryMaker
                 Precompiler.compile(word);  // 编译为等效字符串
             }
             LinkedList<IWord> wordLinkedList = (LinkedList<IWord>) wordList;
-            wordLinkedList.addFirst(new Word(Predefine.TAG_BIGIN, Nature.begin.toString()));
-            wordLinkedList.addLast(new Word(Predefine.TAG_END, Nature.end.toString()));
+            wordLinkedList.addFirst(new Word(Predefine.TAG_BIGIN, PosTag.begin.toString()));
+            wordLinkedList.addLast(new Word(Predefine.TAG_END, PosTag.end.toString()));
         }
     }
 

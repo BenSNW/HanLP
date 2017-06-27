@@ -11,9 +11,9 @@
  */
 package com.hankcs.hanlp.corpus.io;
 
-import com.hankcs.hanlp.utility.ByteUtil;
+import com.hankcs.hanlp.util.ByteUtil;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 对字节数组进行封装，提供方便的读取操作

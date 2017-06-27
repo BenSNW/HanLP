@@ -16,11 +16,10 @@ import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 2-gram词典制作工具

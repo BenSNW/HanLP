@@ -86,7 +86,7 @@ public class PersonRecognition
                     case nr:
                     {
                         // 有些双名实际上可以构成更长的三名
-                        if (vertex.getAttribute().totalFrequency <= 1000 && vertex.realWord.length() == 2)
+                        if (vertex.getTagInfo().totalFrequency <= 1000 && vertex.realWord.length() == 2)
                         {
                             nrEnumItem = new EnumItem<NR>(NR.X, NR.G);
                         }

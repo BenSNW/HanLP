@@ -13,7 +13,7 @@ package com.hankcs.hanlp.dictionary.other;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.ByteArray;
-import com.hankcs.hanlp.utility.TextUtility;
+import com.hankcs.hanlp.util.TextUtility;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 
 /**
  * 字符类型

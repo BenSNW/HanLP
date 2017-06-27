@@ -13,7 +13,7 @@ package com.hankcs.hanlp.seg.NShort.Path;
 
 import com.hankcs.hanlp.seg.common.EdgeFrom;
 import com.hankcs.hanlp.seg.common.Graph;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.ArrayList;
 import java.util.List;

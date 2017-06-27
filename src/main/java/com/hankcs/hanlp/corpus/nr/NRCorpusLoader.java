@@ -20,7 +20,7 @@ import com.hankcs.hanlp.corpus.tag.NR;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import static com.hankcs.hanlp.utility.Predefine.logger;
+import static com.hankcs.hanlp.util.Predefine.logger;
 /**
  * 对人名语料的解析，并且生成词典
  * @author hankcs

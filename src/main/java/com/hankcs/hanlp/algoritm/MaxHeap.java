@@ -39,7 +39,7 @@ public class MaxHeap<E>
         if (maxSize <= 0)
             throw new IllegalArgumentException();
         this.maxSize = maxSize;
-        this.queue = new PriorityQueue<E>(maxSize, comparator);
+        this.queue = new PriorityQueue<>(maxSize, comparator);
     }
 
     /**
@@ -73,11 +73,7 @@ public class MaxHeap<E>
      */
     public MaxHeap<E> addAll(Collection<E> collection)
     {
-        for (E e : collection)
-        {
-            add(e);
-        }
-
+        collection.forEach(this::add);
         return this;
     }
 

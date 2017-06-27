@@ -11,18 +11,17 @@
  */
 package com.hankcs.hanlp.recognition.nr;
 
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.dictionary.BaseSearcher;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.nr.JapanesePersonDictionary;
 import com.hankcs.hanlp.seg.common.Vertex;
 import com.hankcs.hanlp.seg.common.WordNet;
-import com.hankcs.hanlp.utility.Predefine;
+import com.hankcs.hanlp.util.Predefine;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.hankcs.hanlp.dictionary.nr.NRConstant.ATTRIBUTE;
 import static com.hankcs.hanlp.dictionary.nr.NRConstant.WORD_ID;
 
 /**
@@ -121,6 +120,6 @@ public class JapanesePersonRecognition
     private static void insertName(String name, int activeLine, WordNet wordNetOptimum, WordNet wordNetAll)
     {
         if (isBadCase(name)) return;
-        wordNetOptimum.insert(activeLine, new Vertex(Predefine.TAG_PEOPLE, name, new CoreDictionary.Attribute(Nature.nrj), WORD_ID), wordNetAll);
+        wordNetOptimum.insert(activeLine, new Vertex(Predefine.TAG_PEOPLE, name, new CoreDictionary.PosTagInfo(PosTag.nrj), WORD_ID), wordNetAll);
     }
 }

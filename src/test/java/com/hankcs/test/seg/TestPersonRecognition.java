@@ -14,12 +14,12 @@ package com.hankcs.test.seg;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.FolderWalker;
 import com.hankcs.hanlp.corpus.io.IOUtil;
-import com.hankcs.hanlp.corpus.tag.Nature;
+import com.hankcs.hanlp.corpus.tag.PosTag;
 import com.hankcs.hanlp.seg.Dijkstra.DijkstraSegment;
 import com.hankcs.hanlp.seg.NShort.NShortSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.utility.SentencesUtil;
+import com.hankcs.hanlp.util.SentencesUtil;
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -45,7 +45,7 @@ public class TestPersonRecognition extends TestCase
             List<List<Term>> sentenceList = segment.seg2sentence(content);
             for (List<Term> sentence : sentenceList)
             {
-                if (SentencesUtil.hasNature(sentence, Nature.nr))
+                if (SentencesUtil.hasNature(sentence, PosTag.nr))
                 {
                     System.out.println(sentence);
                 }
