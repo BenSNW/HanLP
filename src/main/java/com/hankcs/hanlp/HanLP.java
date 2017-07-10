@@ -29,6 +29,7 @@ import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import static com.hankcs.hanlp.util.Predefine.logger;
 
@@ -40,13 +41,17 @@ import static com.hankcs.hanlp.util.Predefine.logger;
  * @author hankcs
  */
 @SuppressWarnings("ALL")
-public class HanLP
-{
+public class HanLP {
+
+    public static final class Patn {
+        public static final Pattern TRIM_PATTERN = Pattern.compile("^\\s+|\\s+$");
+        public static final Pattern SPACE_PATTERN = Pattern.compile("\\s+");
+    }
+
     /**
      * 库的全局配置，既可以用代码修改，也可以通过hanlp.properties配置（按照 变量名=值 的形式）
      */
-    public static final class Config
-    {
+    public static final class Config {
         /**
          * 开发模式
          */
@@ -58,11 +63,12 @@ public class HanLP
         /**
          * 核心词典词性转移矩阵路径
          */
-        public static String CoreDictionaryTransformMatrixPath = "data/dictionary/CoreNatureDictionary.tr.txt";
+        public static String CoreDictionaryTagTrPath = "data/dictionary/CoreNatureDictionary.tr.txt";
         /**
          * 用户自定义词典路径
          */
-        public static String CustomDictionaryPath[] = new String[]{"data/dictionary/custom/机构名词典.txt"};
+        public static String CustomDictionaryPath[] = new String[]{
+                "data/dictionary/custom/机构名词典.txt", "data/dictionary/idiom.txt"};
         /**
          * 2元语法词典路径
          */
@@ -191,7 +197,7 @@ public class HanLP
 //                String root = p.getProperty("root", "").replaceAll("\\\\", "/");
 //                if (!root.endsWith("/")) root += "/";
 //                CoreDictionaryPath = root + p.getProperty("CoreDictionaryPath", CoreDictionaryPath);
-//                CoreDictionaryTransformMatrixPath = root + p.getProperty("CoreDictionaryTransformMatrixPath", CoreDictionaryTransformMatrixPath);
+//                CoreDictionaryTagTrPath = root + p.getProperty("CoreDictionaryTagTrPath", CoreDictionaryTagTrPath);
 //                BiGramDictionaryPath = root + p.getProperty("BiGramDictionaryPath", BiGramDictionaryPath);
 //                CoreStopWordDictionaryPath = root + p.getProperty("CoreStopWordDictionaryPath", CoreStopWordDictionaryPath);
 //                CoreSynonymDictionaryDictionaryPath = root + p.getProperty("CoreSynonymDictionaryDictionaryPath", CoreSynonymDictionaryDictionaryPath);

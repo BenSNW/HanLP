@@ -11,12 +11,17 @@
  */
 package com.hankcs.demo;
 
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.CRF.CRFSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * CRF分词(在最新训练的未压缩100MB模型下，能够取得较好的效果，可以投入生产环境)
@@ -49,8 +54,14 @@ public class DemoCRFSegment
 //                "持有工商银行股份超过百分之十的公司投资过哪些其他属于科技行业的公司？",
 //                "这道题连小学生都会做", "甲、乙、BAT", "他将来上海", "对我来说这一点都不重要",
 
-                "他13天前来的上海", "他两天前来的上海", "2017nian前", "一九九二年前",
+                "他13年8月份前后来的上海", "他13天前来的上海", "他两天前来的上海", "他将来上海",
+
+                "2017nian前的第五天和第三季", "一九九二年前的一个晚上", "陈百强是谁", "陈小强是谁",
+
+                "这件事我千方百计确定百分之八九十不是三言两语就能说得清里面第一季度的千分之二的"
         };
+
+//        CustomDictionary.add("三言两语", "d 4");
 
         for (String sentence : sentenceArray)
         {
@@ -58,22 +69,17 @@ public class DemoCRFSegment
             System.out.println(termList);
         }
 
-//        Files.readAllLines(Paths.get("data/feature.txt")).forEach(System.out::println);
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(
-//                new FileInputStream("data/feature.txt"), StandardCharsets.UTF_8
-//        ));
-//        String line;
-//        while ((line = reader.readLine()) != null && line.length() != 0) System.out.println(line);
-//
 //        Iterable<String> it = () -> {
 //            try {
-//                return Files.readAllLines(Paths.get(HanLP.Config.CRFSegmentModelPath)).iterator();
+//                return Stream.concat(Files.lines(Paths.get("data/dictionary/CoreNatureDictionary.txt")),
+//                                    Files.lines(Paths.get("data/dictionary/custom/现代汉语补充词库.txt")))
+//                            .filter(line -> line.trim().split("\\s+")[0].length() >= 3)
+//                            .distinct().parallel().iterator();
 //            } catch (IOException e) {
 //                throw new RuntimeException(e);
 //            }
 //        };
-//        Files.write(Paths.get("data/model.txt"), it);
-
+//        Files.write(Paths.get("data/dictionary/idiom.txt"), it);
 
         /**
          * 内存CookBook:

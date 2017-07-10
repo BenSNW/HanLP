@@ -108,7 +108,7 @@ public class AtomNode
                 word = "未##串";
                 break;
             case Predefine.CT_SINGLE://12021-2129-3121
-//                if (Pattern.compile("^(-?\\d+)(\\.\\d+)?$").matcher(word).matches())//匹配浮点数
+//                if (Patn.compile("^(-?\\d+)(\\.\\d+)?$").matcher(word).matches())//匹配浮点数
 //                {
 //                    pos = PosTag.m;
 //                    word = "未##数";

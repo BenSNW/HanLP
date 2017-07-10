@@ -53,34 +53,29 @@ public class CustomDictionary
     static
     {
         long start = System.currentTimeMillis();
-        if (loadMainDictionary(path[0]))
-        {
-            logger.info("自定义词典加载成功:" + dat.size() + "个词条，耗时" + (System.currentTimeMillis() - start) + "ms");
-        }
-        else
-        {
-            logger.warning("自定义词典" + Arrays.toString(path) + "加载失败");
-        }
-
-        for (int i=1; i < path.length; i++) {
-            try {
-                Files.readAllLines(Paths.get(path[i])).forEach( line -> {
-                    int startIndex = 0;
-                    while (Character.isSpaceChar(line.charAt(startIndex)))
-                        startIndex++;
-                    int split = line.indexOf(' ', startIndex);
-                    if (split < 0)
-                        add(line.trim());
-                    else
-                        add(line.substring(startIndex, split), line.substring(split).trim());
-                });
-            } catch (IOException e) {
+        for (String dic : path) {
+            if (loadMainDictionary(dic))
+                logger.info("自定义词典加载成功:" + dat.size() + "个词条，耗时" + (System.currentTimeMillis() - start) + "ms");
+            else
                 logger.warning("自定义词典" + Arrays.toString(path) + "加载失败");
-            }
         }
-        if (path.length > 0) {
 
-        }
+//        for (int i=1; i < path.length; i++) {
+//            try {
+//                Files.lines(Paths.get(path[i])).forEach( line -> {
+//                    int startIndex = 0;
+//                    while (Character.isSpaceChar(line.charAt(startIndex)))
+//                        startIndex++;
+//                    int split = line.indexOf(' ', startIndex);
+//                    if (split < 0)
+//                        add(line.trim());
+//                    else
+//                        add(line.substring(startIndex, split), line.substring(split).trim());
+//                });
+//            } catch (IOException e) {
+//                logger.warning("自定义词典" + Arrays.toString(path) + "加载失败");
+//            }
+//        }
     }
 
     private static boolean loadMainDictionary(String mainPath)

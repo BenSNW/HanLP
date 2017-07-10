@@ -527,7 +527,7 @@ public abstract class ShortestPathSegment extends Segment
      */
     protected static void speechTagging(List<Vertex> vertexList)
     {
-        Viterbi.compute(vertexList, CoreDictionaryTransformMatrixDictionary.transformMatrixDictionary);
+        Viterbi.compute(vertexList, CoreDictionaryTransformMatrixDictionary.posTagTrDictionary);
     }
 
 //    protected static void performNamedEntityRecognize(List<Vertex> vertexList, WordNet wordNetOptimum, WordNet wordNetAll)

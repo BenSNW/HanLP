@@ -81,6 +81,7 @@ public class CRFSegment extends TransitionBasedSegment
         Table table = new Table();
         table.v = atomSegmentToTable(sentenceConverted);
         crfModel.tag(table);
+        // table第一列是原子标记（数字和英文标记位M/W），第二列是对应的原子词，第三列是BEMS tag
         List<Term> termList = new LinkedList<>();
         if (HanLP.Config.DEBUG)
         {
@@ -117,7 +118,10 @@ public class CRFSegment extends TransitionBasedSegment
                 break;
                 default:    // 'S'
                 {
-                    termList.add(new Term(new String(sentence, offset, table.v[i][1].length()), offset));
+                    Term term = new Term(new String(sentence, offset, table.v[i][1].length()), offset);
+                    if ("M".equals(line[0]))
+                        term.tag = PosTag.m;
+                    termList.add(term);
                 }
                 break;
             }
@@ -126,7 +130,7 @@ public class CRFSegment extends TransitionBasedSegment
         if (config.posTagging)
         {
             List<Vertex> vertexList = toVertexList(termList, true);
-            Viterbi.compute(vertexList, CoreDictionaryTransformMatrixDictionary.transformMatrixDictionary);
+            Viterbi.compute(vertexList, CoreDictionaryTransformMatrixDictionary.posTagTrDictionary);
             int i = 0;
             for (Term term : termList)
             {
@@ -151,12 +155,12 @@ public class CRFSegment extends TransitionBasedSegment
         if (appendStart) vertexList.add(Vertex.B);
         for (Term term : termList)
         {
+            if (term.word.trim().length() == 0)
+                continue;
+
             CoreDictionary.PosTagInfo tagInfo = CoreDictionary.get(term.word);
             if (tagInfo == null)
-            {
-                if (term.word.trim().length() == 0) tagInfo = new CoreDictionary.PosTagInfo(PosTag.x);
-                else tagInfo = new CoreDictionary.PosTagInfo(PosTag.nz);
-            }
+                tagInfo = new CoreDictionary.PosTagInfo(term.tag == null ? PosTag.nz : term.tag);
             else term.tag = tagInfo.pos[0];
             Vertex vertex = new Vertex(term.word, tagInfo);
             vertexList.add(vertex);
@@ -294,7 +298,7 @@ public class CRFSegment extends TransitionBasedSegment
         out:
         for (int i = 0; i < sentence.length; i++)
         {
-            if (sentence[i] >= '0' && sentence[i] <= '9')
+            if (isDigit(sentence[i]))
             {
                 sbAtom.append(sentence[i]);
                 if (i == maxLen)
@@ -306,9 +310,9 @@ public class CRFSegment extends TransitionBasedSegment
                     break;
                 }
                 char c = sentence[++i];
-                while (c == '.' || c == '%' || (c >= '0' && c <= '9'))
+                while (c == '.' || c == '%' || c == ',' || isDigit(c))
                 {
-                    sbAtom.append(sentence[i]);
+                    sbAtom.append(c);
                     if (i == maxLen)
                     {
                         table[size][0] = "M";
@@ -364,6 +368,16 @@ public class CRFSegment extends TransitionBasedSegment
         }
 
         return resizeArray(table, size);
+    }
+
+    private static boolean isDigit(char c) {
+        return (c >= '0' && c <= '9') || "零一二两三四五六七八九十百千万亿".indexOf(c) >= 0;
+    }
+
+    private static boolean isPartOfDigit(String text, int index) {
+        char c = text.charAt(index);
+        return isDigit(c) || "%％".indexOf(c) >= 0
+            || (".,".indexOf(c) > 0 && index < text.length() && isDigit(text.charAt(index+1)));
     }
 
     /**

@@ -97,9 +97,9 @@ public class Viterbi
      * 特化版的求解HMM模型
      *
      * @param vertexList                包含Vertex.B节点的路径
-     * @param transformMatrixDictionary 词典对应的转移矩阵
+     * @param trMatrix 词典对应的转移矩阵
      */
-    public static void compute(List<Vertex> vertexList, TransformMatrixDictionary<PosTag> transformMatrixDictionary)
+    public static void compute(List<Vertex> vertexList, TransformMatrixDictionary<PosTag> trMatrix)
     {
         int length = vertexList.size() - 1;
         double[][] cost = new double[2][];  // 滚动数组
@@ -118,7 +118,7 @@ public class Viterbi
             int curIndex = 0;
             for (PosTag cur : item.tagInfo.pos)
             {
-                cost[0][j] = transformMatrixDictionary.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[curIndex] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                cost[0][j] = trMatrix.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[curIndex] + 1e-8) / trMatrix.getTotalFrequency(cur));
                 ++j;
                 ++curIndex;
             }
@@ -141,7 +141,7 @@ public class Viterbi
                 int j = 0;
                 for (PosTag p : preTagSet)
                 {
-                    double now = cost[index_i_1][j] + transformMatrixDictionary.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[k] + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                    double now = cost[index_i_1][j] + trMatrix.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.tagInfo.frequency[k] + 1e-8) / trMatrix.getTotalFrequency(cur));
                     if (now < cost[index_i][k])
                     {
                         cost[index_i][k] = now;
@@ -165,11 +165,11 @@ public class Viterbi
      * 标准版的Viterbi算法，查准率高，效率稍低
      *
      * @param roleTagList               观测序列
-     * @param transformMatrixDictionary 转移矩阵
+     * @param trMatrix 转移矩阵
      * @param <E>                       EnumItem的具体类型
      * @return 预测结果
      */
-    public static <E extends Enum<E>> List<E> computeEnum(List<EnumItem<E>> roleTagList, TransformMatrixDictionary<E> transformMatrixDictionary)
+    public static <E extends Enum<E>> List<E> computeEnum(List<EnumItem<E>> roleTagList, TransformMatrixDictionary<E> trMatrix)
     {
         int length = roleTagList.size() - 1;
         List<E> tagList = new ArrayList<E>(roleTagList.size());
@@ -187,7 +187,7 @@ public class Viterbi
             int j = 0;
             for (E cur : item.labelMap.keySet())
             {
-                cost[0][j] = transformMatrixDictionary.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.getFrequency(cur) + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                cost[0][j] = trMatrix.transititon_probability[pre.ordinal()][cur.ordinal()] - Math.log((item.getFrequency(cur) + 1e-8) / trMatrix.getTotalFrequency(cur));
                 ++j;
             }
             preTagSet = item.labelMap.keySet();
@@ -208,7 +208,7 @@ public class Viterbi
                 int j = 0;
                 for (E p : preTagSet)
                 {
-                    double now = cost[index_i_1][j] + transformMatrixDictionary.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.getFrequency(cur) + 1e-8) / transformMatrixDictionary.getTotalFrequency(cur));
+                    double now = cost[index_i_1][j] + trMatrix.transititon_probability[p.ordinal()][cur.ordinal()] - Math.log((item.getFrequency(cur) + 1e-8) / trMatrix.getTotalFrequency(cur));
                     if (now < cost[index_i][k])
                     {
                         cost[index_i][k] = now;

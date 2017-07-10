@@ -56,7 +56,7 @@ public class CustomPosTagUtil
         enumBuster.addByValue(customNature);
         extraValueMap.put(name, customNature);
         // 必须对词性标注HMM模型中的元组做出调整
-        CoreDictionaryTransformMatrixDictionary.transformMatrixDictionary.extendSize();
+        CoreDictionaryTransformMatrixDictionary.posTagTrDictionary.extendSize();
 
         return customNature;
     }

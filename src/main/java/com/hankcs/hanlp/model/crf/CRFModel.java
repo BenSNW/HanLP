@@ -80,7 +80,7 @@ public class CRFModel implements ICacheAble
     {
         CRFModel crfModel = instance;
         // 先尝试从bin加载
-        if (crfModel.load(ByteArray.createByteArray(path + Predefine.BIN_EXT))) return crfModel;
+//        if (crfModel.load(ByteArray.createByteArray(path + Predefine.BIN_EXT))) return crfModel;
         IOUtil.LineIterator lineIterator = new IOUtil.LineIterator(path);
         if (!lineIterator.hasNext()) return null;
         logger.info(lineIterator.next());   // verson

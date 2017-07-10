@@ -22,19 +22,19 @@ import static com.hankcs.hanlp.util.Predefine.logger;
  */
 public class CoreDictionaryTransformMatrixDictionary
 {
-    public static TransformMatrixDictionary<PosTag> transformMatrixDictionary;
+    public static TransformMatrixDictionary<PosTag> posTagTrDictionary;
     static
     {
-        transformMatrixDictionary = new TransformMatrixDictionary<>(PosTag.class);
+        posTagTrDictionary = new TransformMatrixDictionary<>(PosTag.class);
         long start = System.currentTimeMillis();
-        if (!transformMatrixDictionary.load(HanLP.Config.CoreDictionaryTransformMatrixPath))
+        if (!posTagTrDictionary.load(HanLP.Config.CoreDictionaryTagTrPath))
         {
-            logger.severe("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTransformMatrixPath + "失败");
+            logger.severe("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTagTrPath + "失败");
             System.exit(-1);
         }
         else
         {
-            logger.info("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTransformMatrixPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
+            logger.info("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTagTrPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
         }
     }
 }
